@@ -1,0 +1,26 @@
+{
+  "name": "angular-scaffold",
+  "version": "0.0.1",
+  "description": "Script to install Angular and additional tooling",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest"
+  },
+  "engines": {
+    "node": "> 14"
+  },
+  "bin": "./index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.0.0",
+    "shelljs": "^0.8.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "babel-jest": "^27.4.6",
+    "jest": "^27.4.7"
+  }
+}
