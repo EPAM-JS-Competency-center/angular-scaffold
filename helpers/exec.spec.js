@@ -36,7 +36,7 @@ describe("execOrFail", () => {
   });
 
   it("log start, execute the command, log error and exit with code 1", () => {
-    shelljs.exec.mockReturnValue({ code: 1 });
+    shelljs.exec.mockImplementation(() => ({ code: 1 }));
     execOrFail({
       cmd: "cmd",
       startMsg: "startMsg",
