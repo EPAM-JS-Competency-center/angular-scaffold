@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import shelljs from "shelljs";
-import { execOrFail, logEnd } from "./helpers";
+import { execOrFail, logEnd } from "./helpers/index.js";
 
 const appName = process.argv[2];
 
