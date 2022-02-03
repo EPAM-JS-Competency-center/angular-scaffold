@@ -21,6 +21,7 @@
     "@babel/core": "^7.16.12",
     "@babel/preset-env": "^7.16.11",
     "@types/jest": "^27.4.0",
+    "@types/node": "^16.11.22",
     "babel-jest": "^27.4.6",
     "jest": "^27.4.7"
   }
