@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import shelljs from "shelljs";
+import { addTemplateRules } from "./eslint/template.js";
 import { execOrFail, logEnd } from "./helpers/index.js";
 
 const appName = process.argv[2];
@@ -22,5 +23,8 @@ execOrFail({
   errorMsg: "Error during adding Angular ESLint",
   endMsg: "@angular-eslint schematics added",
 });
+
+// Add ESLint template rules
+addTemplateRules();
 
 logEnd("Ready to work!");

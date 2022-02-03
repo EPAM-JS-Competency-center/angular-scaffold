@@ -11,9 +11,8 @@
 
 ## Features in progress
 
-- [ ] Add ESLint rules for templates
-
 ## Features done
 
 - [x] Add Angular app scaffold
 - [x] Add ESLint
+- [x] Add ESLint rules for templates
