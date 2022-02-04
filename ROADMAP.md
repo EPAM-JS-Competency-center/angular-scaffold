@@ -8,6 +8,8 @@
 - [ ] Add ESLint rules for Jasmine
 - [ ] Add ESLint rules for RxJS
 - [ ] Add ESLint sonarjs rules
+- [ ] Add SVGO
+- [ ] Add Storybook
 
 ## Features in progress
 
