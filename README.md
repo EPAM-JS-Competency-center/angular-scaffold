@@ -2,6 +2,11 @@
 
 The package is designed to install Angular, recommended tooling for it and some additional configurations.
 
+## Prerequisites
+
+Node >= v16
+NPM
+
 ## Using the package
 
 `npx scaffold-angular my-app`

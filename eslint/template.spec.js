@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import { logEnd, logStart } from "../helpers";
-import { addTemplateRules, eslintTemplateRules } from "./template";
+import { eslintTemplateRules } from "./rules";
+import { addTemplateRules } from "./template";
 
 jest.mock("../helpers/index.js", () => ({
   __esModule: true,

@@ -1,4 +1,5 @@
 import shelljs from "shelljs";
+import { addJasmineRules } from "./eslint/jasmine";
 import { addTemplateRules } from "./eslint/template";
 import { execOrFail, logEnd } from "./helpers";
 
@@ -8,10 +9,17 @@ jest.mock("shelljs", () => ({
     cd: jest.fn(),
   },
 }));
+
 jest.mock("./eslint/template.js", () => ({
   __esModule: true,
   addTemplateRules: jest.fn(),
 }));
+
+jest.mock("./eslint/jasmine.js", () => ({
+  __esModule: true,
+  addJasmineRules: jest.fn(),
+}));
+
 jest.mock("./helpers/index.js", () => ({
   execOrFail: jest.fn(),
   logEnd: jest.fn(),
@@ -39,6 +47,8 @@ describe("index.js", () => {
     });
 
     expect(addTemplateRules).toHaveBeenCalled();
+
+    expect(addJasmineRules).toHaveBeenCalled();
 
     expect(logEnd).toHaveBeenCalledWith("Ready to work!");
   });
