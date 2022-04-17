@@ -3,6 +3,7 @@ import { addJasmineRules } from "./eslint/jasmine";
 import { addTemplateRules } from "./eslint/template";
 import { execOrFail, logEnd } from "./helpers";
 import { addRxJSRules } from "./eslint/rxjs";
+import { addSonarRules } from "./eslint/sonar.js";
 
 jest.mock("shelljs", () => ({
   __esModule: true,
@@ -24,6 +25,11 @@ jest.mock("./eslint/jasmine.js", () => ({
 jest.mock("./eslint/rxjs.js", () => ({
   __esModule: true,
   addRxJSRules: jest.fn(),
+}));
+
+jest.mock("./eslint/sonar.js", () => ({
+  __esModule: true,
+  addSonarRules: jest.fn(),
 }));
 
 jest.mock("./helpers/index.js", () => ({
@@ -57,6 +63,8 @@ describe("index.js", () => {
     expect(addJasmineRules).toHaveBeenCalled();
 
     expect(addRxJSRules).toHaveBeenCalled();
+
+    expect(addSonarRules).toHaveBeenCalled();
 
     expect(logEnd).toHaveBeenCalledWith("Ready to work!");
   });

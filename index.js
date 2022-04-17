@@ -5,6 +5,7 @@ import { addJasmineRules } from "./eslint/jasmine.js";
 import { addTemplateRules } from "./eslint/template.js";
 import { execOrFail, logEnd } from "./helpers/index.js";
 import { addRxJSRules } from "./eslint/rxjs.js";
+import { addSonarRules } from "./eslint/sonar.js";
 
 const appName = process.argv[2];
 
@@ -34,5 +35,8 @@ addJasmineRules();
 
 // Add RxJS rules
 addRxJSRules();
+
+// Add Sonarjs rules
+addSonarRules();
 
 logEnd("Ready to work!");
