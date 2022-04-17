@@ -10,7 +10,6 @@
 
 ## Features in progress
 
-- [ ] Add ESLint rules for RxJS
 - [ ] Add ESLint sonarjs rules
 
 ## Features done
@@ -19,3 +18,4 @@
 - [x] Add ESLint
 - [x] Add ESLint rules for templates
 - [x] Add ESLint rules for Jasmine
+- [x] Add ESLint rules for RxJS

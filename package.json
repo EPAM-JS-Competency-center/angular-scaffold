@@ -24,6 +24,7 @@
     "@types/node": "^16.11.22",
     "@types/shelljs": "^0.8.11",
     "babel-jest": "^27.4.6",
-    "jest": "^27.4.7"
+    "jest": "^27.4.7",
+    "prettier": "^2.6.2"
   }
 }

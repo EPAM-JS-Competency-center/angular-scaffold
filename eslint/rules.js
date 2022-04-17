@@ -17,6 +17,10 @@ export const eslintTemplateRules = {
 };
 
 export const eslintJasmineRules = {
+  "jasmine/no-focused-tests": "error",
+};
+
+export const eslintRxJSRules = {
   "rxjs/no-ignored-observable": "error",
   "rxjs/no-unbound-methods": "error",
   "rxjs/throw-error": "error",

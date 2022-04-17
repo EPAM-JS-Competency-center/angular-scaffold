@@ -4,6 +4,7 @@ import shelljs from "shelljs";
 import { addJasmineRules } from "./eslint/jasmine.js";
 import { addTemplateRules } from "./eslint/template.js";
 import { execOrFail, logEnd } from "./helpers/index.js";
+import { addRxJSRules } from "./eslint/rxjs.js";
 
 const appName = process.argv[2];
 
@@ -30,5 +31,8 @@ addTemplateRules();
 
 // Add ESLint Jasmine rules
 addJasmineRules();
+
+// Add RxJS rules
+addRxJSRules();
 
 logEnd("Ready to work!");

@@ -1,8 +1,8 @@
 import { readFileSync, writeFileSync } from "fs";
 import shelljs from "shelljs";
 import { logEnd, logError, logStart } from "../helpers/index.js";
-import { addJasmineRules } from "./jasmine";
-import { eslintJasmineRules } from "./rules";
+import {eslintRxJSRules} from "./rules.js";
+import {addRxJSRules} from "./rxjs.js";
 
 jest.mock("../helpers/index.js", () => ({
   __esModule: true,
@@ -39,24 +39,20 @@ const eslintrcMock = {
   ],
 };
 
+const invalidEslintrcMock = {
+  overrides: [],
+};
+
 const eslintrcExpected = JSON.stringify(
   {
     overrides: [
       {
         files: ["*.ts"],
-        extends: ["test"],
+        extends: ["test", "plugin:rxjs/recommended"],
         rules: {
           test_rule: "error",
+          ...eslintRxJSRules,
         },
-      },
-      {
-        files: ["*.spec.ts"],
-        plugins: ["jasmine"],
-        env: {
-          jasmine: true,
-        },
-        extends: "plugin:jasmine/recommended",
-        rules: eslintJasmineRules,
       },
     ],
   },
@@ -64,33 +60,39 @@ const eslintrcExpected = JSON.stringify(
   2
 );
 
-describe("addJasmineRules", () => {
+describe("addRxJSRules", () => {
   it("should install package and update eslinrc file", () => {
-    addJasmineRules();
+    addRxJSRules();
 
     expect(logStart).toHaveBeenCalledWith(
-      "Installing ESLint plugin for unit tests"
+      "Installing ESLint plugin for RxJS"
     );
-    expect(shelljs.exec).toHaveBeenCalledWith("npm i eslint-plugin-jasmine -D");
+    expect(shelljs.exec).toHaveBeenCalledWith("npm i eslint-plugin-rxjs -D");
     expect(logEnd).toHaveBeenCalledWith(
-      "ESLint plugin for unit tests installed"
+      "ESLint plugin for RxJS installed"
     );
 
     expect(logStart).toHaveBeenCalledWith(
-      "Updating ESLint rules for unit tests"
+      "Updating ESLint rules for RxJS"
     );
     expect(readFileSync).toHaveBeenCalledWith("./.eslintrc.json", "utf8");
     expect(writeFileSync).toHaveBeenCalledWith(
       "./.eslintrc.json",
       eslintrcExpected
     );
-    expect(logEnd).toHaveBeenCalledWith("ESLint rules for unit tests updated");
+    expect(logEnd).toHaveBeenCalledWith("ESLint rules for RxJS updated");
+  });
+
+  it("should throw error", () => {
+    readFileSync.mockReturnValue(JSON.stringify(invalidEslintrcMock));
+
+    expect(() => addRxJSRules()).toThrow("Could not find TS override");
   });
 
   it("should log error and exit", () => {
     shelljs.exec.mockReturnValue({ code: 1 });
 
-    addJasmineRules();
+    addRxJSRules();
 
     expect(logError).toHaveBeenCalledWith(
       "Error during installation of ESLint plugin"
