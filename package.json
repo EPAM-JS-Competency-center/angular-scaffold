@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "release": "standard-version"
+    "release": "standard-version",
+    "prepare": "husky install"
   },
   "engines": {
     "node": ">= 16"
@@ -25,6 +26,7 @@
     "@types/node": "^16.11.22",
     "@types/shelljs": "^0.8.11",
     "babel-jest": "^27.4.6",
+    "husky": "^8.0.1",
     "jest": "^27.4.7",
     "prettier": "^2.6.2",
     "standard-version": "^9.5.0"
