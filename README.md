@@ -1,11 +1,12 @@
-# Angular Scaffold
+# Scaffold Angular
 
 The package is designed to install Angular, recommended tooling for it and some additional configurations.
 
 ## Prerequisites
 
 Node >= v16
-NPM
+
+NPM >= 8
 
 ## Using the package
 
