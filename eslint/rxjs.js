@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import shelljs from "shelljs";
 import { logEnd, logError, logStart } from "../helpers/index.js";
-import { eslintRxJSRules } from "./rules";
+import { eslintRxJSRules } from "./rules.js";
 
 export function addRxJSRules() {
   logStart("Installing ESLint plugin for RxJS");
