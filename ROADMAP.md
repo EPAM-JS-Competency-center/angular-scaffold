@@ -2,19 +2,20 @@
 
 ## Features in plan
 
-- [ ] Add Stylelint
-- [ ] Add Husky
-- [ ] Add Prettier
-- [ ] Add SVGO
-- [ ] Add Storybook
+- Add SVGO
+- Add Storybook
 
 ## Features in progress
 
-## Features done
+- Add Stylelint
+- Add Husky
+- Add Prettier
 
-- [x] Add Angular app scaffold
-- [x] Add ESLint
-- [x] Add ESLint rules for templates
-- [x] Add ESLint rules for Jasmine
-- [x] Add ESLint rules for RxJS
-- [x] Add ESLint sonarjs rules
+## Features added
+
+- Add Angular app scaffold
+- Add ESLint
+- Add ESLint rules for templates
+- Add ESLint rules for Jasmine
+- Add ESLint rules for RxJS
+- Add ESLint sonarjs rules
