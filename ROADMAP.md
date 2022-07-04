@@ -2,14 +2,9 @@
 
 ## Features in plan
 
-- Add SVGO
 - Add Storybook
 
 ## Features in progress
-
-- Add Stylelint
-- Add Husky
-- Add Prettier
 
 ## Features added
 
@@ -19,3 +14,7 @@
 - Add ESLint rules for Jasmine
 - Add ESLint rules for RxJS
 - Add ESLint sonarjs rules
+- Add Stylelint
+- Add Husky
+- Add Prettier
+- Add SVGO

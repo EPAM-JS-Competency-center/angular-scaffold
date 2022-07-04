@@ -1,9 +1,13 @@
 import shelljs from "shelljs";
 import { addJasmineRules } from "./eslint/jasmine";
+import { addRxJSRules } from "./eslint/rxjs";
+import { addSonarRules } from "./eslint/sonar";
 import { addTemplateRules } from "./eslint/template";
 import { execOrFail, logEnd } from "./helpers";
-import { addRxJSRules } from "./eslint/rxjs";
-import { addSonarRules } from "./eslint/sonar.js";
+import { addHusky } from "./husky";
+import { addLintStaged } from "./lint-staged";
+import { addPrettier } from "./prettier";
+import { addStylelint } from "./stylelint";
 
 jest.mock("shelljs", () => ({
   __esModule: true,
@@ -37,13 +41,29 @@ jest.mock("./helpers/index.js", () => ({
   logEnd: jest.fn(),
 }));
 
+jest.mock("./husky/index.js", () => ({
+  addHusky: jest.fn(),
+}));
+
+jest.mock("./lint-staged/index.js", () => ({
+  addLintStaged: jest.fn(),
+}));
+
+jest.mock("./prettier/index.js", () => ({
+  addPrettier: jest.fn(),
+}));
+
+jest.mock("./stylelint/index.js", () => ({
+  addStylelint: jest.fn(),
+}));
+
 describe("index.js", () => {
   it("should pass the flow", async () => {
     process.argv = ["node", "index.js", "test-app"];
     await import("./index.js");
 
     expect(execOrFail).toBeCalledWith({
-      cmd: "npx @angular/cli new test-app",
+      cmd: "npx @angular/cli new test-app --style scss --routing true",
       startMsg: "Scaffolding Angular application...",
       errorMsg: "Error during Angular scaffolding",
       endMsg: "Angular application scaffolded",
@@ -65,6 +85,21 @@ describe("index.js", () => {
     expect(addRxJSRules).toHaveBeenCalled();
 
     expect(addSonarRules).toHaveBeenCalled();
+
+    expect(addPrettier).toHaveBeenCalled();
+
+    expect(addStylelint).toHaveBeenCalled();
+
+    expect(execOrFail).toHaveBeenCalledWith({
+      cmd: "npm i -D svgo",
+      startMsg: "Installing svgo",
+      errorMsg: "Error during svgo installation",
+      endMsg: "svgo installed",
+    });
+
+    expect(addLintStaged).toHaveBeenCalled();
+
+    expect(addHusky).toHaveBeenCalled();
 
     expect(logEnd).toHaveBeenCalledWith("Ready to work!");
   });
