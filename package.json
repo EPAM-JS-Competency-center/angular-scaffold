@@ -2,6 +2,11 @@
   "name": "scaffold-angular",
   "version": "0.0.2",
   "description": "Script to install Angular and additional tooling",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EPAM-JS-Competency-center/angular-scaffold.git"
+  },
+  "homepage": "https://github.com/EPAM-JS-Competency-center/angular-scaffold#readme",
   "main": "index.js",
   "type": "module",
   "scripts": {
