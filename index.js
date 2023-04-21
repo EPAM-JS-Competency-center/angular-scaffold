@@ -5,7 +5,7 @@ import { addJasmineRules } from "./eslint/jasmine.js";
 import { addRxJSRules } from "./eslint/rxjs.js";
 import { addSonarRules } from "./eslint/sonar.js";
 import { addTemplateRules } from "./eslint/template.js";
-import { execOrFail, logEnd, logStart } from "./helpers/index.js";
+import { commit, execOrFail, logEnd, logStart } from "./helpers/index.js";
 import { addHusky } from "./husky/index.js";
 import { addLintStaged } from "./lint-staged/index.js";
 import { addPrettier } from "./prettier/index.js";
@@ -27,27 +27,36 @@ execOrFail({
   cmd: "npx ng add @angular-eslint/schematics --skip-confirmation",
   startMsg: "Adding @angular-eslint schematics",
   errorMsg: "Error during adding Angular ESLint",
-  endMsg: "@angular-eslint schematics added",
+  endMsg: "@angular-eslint schematics added"
 });
+commit("Add ESLint");
 
 // Add ESLint rules
 addTemplateRules();
 addJasmineRules();
 addRxJSRules();
 addSonarRules();
+commit("Add ESLint rules");
 
 addPrettier();
+commit("Add Prettier");
+
 addStylelint();
+commit("Add Stylelint");
 
 // Add svgo
 execOrFail({
   cmd: "npm i -D svgo",
   startMsg: "Installing svgo",
   errorMsg: "Error during svgo installation",
-  endMsg: "svgo installed",
+  endMsg: "svgo installed"
 });
+commit("Add SVGo");
 
 addLintStaged();
+commit("Add Lint staged");
+
 addHusky();
+commit("Add Husky");
 
 logEnd("Ready to work!");

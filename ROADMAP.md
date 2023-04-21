@@ -18,3 +18,4 @@
 - Add Husky
 - Add Prettier
 - Add SVGO
+- Make "ng new" interactive

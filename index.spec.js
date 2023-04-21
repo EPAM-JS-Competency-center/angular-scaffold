@@ -3,7 +3,7 @@ import { addJasmineRules } from "./eslint/jasmine";
 import { addRxJSRules } from "./eslint/rxjs";
 import { addSonarRules } from "./eslint/sonar";
 import { addTemplateRules } from "./eslint/template";
-import { execOrFail, logEnd, logStart } from "./helpers";
+import { commit, execOrFail, logEnd, logStart } from "./helpers";
 import { addHusky } from "./husky";
 import { addLintStaged } from "./lint-staged";
 import { addPrettier } from "./prettier";
@@ -41,6 +41,7 @@ jest.mock("./helpers/index.js", () => ({
   execOrFail: jest.fn(),
   logEnd: jest.fn(),
   logStart: jest.fn(),
+  commit: jest.fn()
 }));
 
 jest.mock("./husky/index.js", () => ({
@@ -59,7 +60,7 @@ jest.mock("./stylelint/index.js", () => ({
   addStylelint: jest.fn(),
 }));
 
-jest.mock('child_process', () => ({
+jest.mock("child_process", () => ({
   execFileSync: jest.fn()
 }));
 
@@ -67,12 +68,16 @@ describe("index.js", () => {
   it("should pass the flow", async () => {
     process.argv = ["node", "index.js", "test-app"];
     await import("./index.js");
-    
+
     expect(logStart).toBeCalledWith("Scaffolding Angular application...");
-    expect(execFileSync).toBeCalledWith("npx", ["@angular/cli", "new", 'test-app'], {
-      stdio: "inherit",
-    })
-    expect(logEnd).toBeCalledWith("Angular application scaffolded")
+    expect(execFileSync).toBeCalledWith(
+      "npx",
+      ["@angular/cli", "new", "test-app"],
+      {
+        stdio: "inherit"
+      }
+    );
+    expect(logEnd).toBeCalledWith("Angular application scaffolded");
 
     expect(shelljs.cd).toBeCalledWith("test-app");
 
@@ -80,31 +85,35 @@ describe("index.js", () => {
       cmd: "npx ng add @angular-eslint/schematics --skip-confirmation",
       startMsg: "Adding @angular-eslint schematics",
       errorMsg: "Error during adding Angular ESLint",
-      endMsg: "@angular-eslint schematics added",
+      endMsg: "@angular-eslint schematics added"
     });
+    expect(commit).toBeCalledWith("Add ESLint");
 
     expect(addTemplateRules).toHaveBeenCalled();
-
     expect(addJasmineRules).toHaveBeenCalled();
-
     expect(addRxJSRules).toHaveBeenCalled();
-
     expect(addSonarRules).toHaveBeenCalled();
+    expect(commit).toBeCalledWith("Add ESLint rules");
 
     expect(addPrettier).toHaveBeenCalled();
+    expect(commit).toBeCalledWith("Add Prettier");
 
     expect(addStylelint).toHaveBeenCalled();
+    expect(commit).toBeCalledWith("Add Stylelint");
 
     expect(execOrFail).toHaveBeenCalledWith({
       cmd: "npm i -D svgo",
       startMsg: "Installing svgo",
       errorMsg: "Error during svgo installation",
-      endMsg: "svgo installed",
+      endMsg: "svgo installed"
     });
+    expect(commit).toBeCalledWith("Add SVGo");
 
     expect(addLintStaged).toHaveBeenCalled();
+    expect(commit).toBeCalledWith("Add Lint staged");
 
     expect(addHusky).toHaveBeenCalled();
+    expect(commit).toBeCalledWith("Add Husky");
 
     expect(logEnd).toHaveBeenCalledWith("Ready to work!");
   });
