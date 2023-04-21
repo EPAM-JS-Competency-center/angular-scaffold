@@ -1,8 +1,8 @@
 import { readFileSync, writeFileSync } from "fs";
 import shelljs from "shelljs";
 import { logEnd, logError, logStart } from "../helpers/index.js";
-import {eslintRxJSRules} from "./rules.js";
-import {addRxJSRules} from "./rxjs.js";
+import { eslintRxJSRules } from "./rules.js";
+import { addRxJSRules } from "./rxjs.js";
 
 jest.mock("../helpers/index.js", () => ({
   __esModule: true,
@@ -51,10 +51,13 @@ const eslintrcExpected = JSON.stringify(
         extends: ["test", "plugin:rxjs/recommended"],
         rules: {
           test_rule: "error",
-          ...eslintRxJSRules,
-        },
-      },
+          ...eslintRxJSRules
+        }
+      }
     ],
+    parserOptions: {
+      project: "tsconfig.json"
+    }
   },
   undefined,
   2

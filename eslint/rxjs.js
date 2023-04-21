@@ -22,6 +22,10 @@ export function addRxJSRules() {
     obj.files.includes("*.ts")
   );
 
+  eslintrc.parserOptions = {
+    project: "tsconfig.json"
+  };
+
   if (!tsOverride) {
     throw new Error("Could not find TS override");
   }
@@ -29,7 +33,7 @@ export function addRxJSRules() {
   tsOverride.extends.push("plugin:rxjs/recommended");
   tsOverride.rules = {
     ...tsOverride.rules,
-    ...eslintRxJSRules,
+    ...eslintRxJSRules
   };
 
   writeFileSync(eslintrcPath, JSON.stringify(eslintrc, undefined, 2));
