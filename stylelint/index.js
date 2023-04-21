@@ -9,7 +9,7 @@ export function addStylelint() {
   // Install default SASS rules
   if (
     shelljs.exec(
-      "npm i -D stylelint stylelint-config-prettier stylelint-config-sass-guidelines"
+      "npm i -D stylelint stylelint-config-sass-guidelines"
     ).code !== 0
   ) {
     logError("Could not install stylelint");
@@ -17,7 +17,7 @@ export function addStylelint() {
   }
 
   const defaultConfig = {
-    extends: ["stylelint-config-sass-guidelines", "stylelint-config-prettier"],
+    extends: ["stylelint-config-sass-guidelines"],
   };
 
   writeFileSync(

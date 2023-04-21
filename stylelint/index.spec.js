@@ -31,7 +31,7 @@ describe("addStylelint", () => {
     expect(logStart).toHaveBeenCalledWith("Installing stylelint");
 
     expect(shelljs.exec).toHaveBeenCalledWith(
-      "npm i -D stylelint stylelint-config-prettier stylelint-config-sass-guidelines"
+      "npm i -D stylelint stylelint-config-sass-guidelines"
     );
 
     expect(writeFileSync).toBeCalledWith(
@@ -40,7 +40,6 @@ describe("addStylelint", () => {
         {
           extends: [
             "stylelint-config-sass-guidelines",
-            "stylelint-config-prettier",
           ],
         },
         null,
