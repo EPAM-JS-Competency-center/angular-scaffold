@@ -3,11 +3,12 @@ import { addJasmineRules } from "./eslint/jasmine";
 import { addRxJSRules } from "./eslint/rxjs";
 import { addSonarRules } from "./eslint/sonar";
 import { addTemplateRules } from "./eslint/template";
-import { execOrFail, logEnd } from "./helpers";
+import { execOrFail, logEnd, logStart } from "./helpers";
 import { addHusky } from "./husky";
 import { addLintStaged } from "./lint-staged";
 import { addPrettier } from "./prettier";
 import { addStylelint } from "./stylelint";
+import { execFileSync } from "child_process";
 
 jest.mock("shelljs", () => ({
   __esModule: true,
@@ -39,6 +40,7 @@ jest.mock("./eslint/sonar.js", () => ({
 jest.mock("./helpers/index.js", () => ({
   execOrFail: jest.fn(),
   logEnd: jest.fn(),
+  logStart: jest.fn(),
 }));
 
 jest.mock("./husky/index.js", () => ({
@@ -57,17 +59,20 @@ jest.mock("./stylelint/index.js", () => ({
   addStylelint: jest.fn(),
 }));
 
+jest.mock('child_process', () => ({
+  execFileSync: jest.fn()
+}));
+
 describe("index.js", () => {
   it("should pass the flow", async () => {
     process.argv = ["node", "index.js", "test-app"];
     await import("./index.js");
-
-    expect(execOrFail).toBeCalledWith({
-      cmd: "npx @angular/cli new test-app --style scss --routing true",
-      startMsg: "Scaffolding Angular application...",
-      errorMsg: "Error during Angular scaffolding",
-      endMsg: "Angular application scaffolded",
-    });
+    
+    expect(logStart).toBeCalledWith("Scaffolding Angular application...");
+    expect(execFileSync).toBeCalledWith("npx", ["@angular/cli", "new", 'test-app'], {
+      stdio: "inherit",
+    })
+    expect(logEnd).toBeCalledWith("Angular application scaffolded")
 
     expect(shelljs.cd).toBeCalledWith("test-app");
 

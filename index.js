@@ -5,21 +5,20 @@ import { addJasmineRules } from "./eslint/jasmine.js";
 import { addRxJSRules } from "./eslint/rxjs.js";
 import { addSonarRules } from "./eslint/sonar.js";
 import { addTemplateRules } from "./eslint/template.js";
-import { execOrFail, logEnd } from "./helpers/index.js";
+import { execOrFail, logEnd, logStart } from "./helpers/index.js";
 import { addHusky } from "./husky/index.js";
 import { addLintStaged } from "./lint-staged/index.js";
 import { addPrettier } from "./prettier/index.js";
 import { addStylelint } from "./stylelint/index.js";
+import { execFileSync } from "child_process";
 
 const appName = process.argv[2];
 
-// Scaffold Angular app
-execOrFail({
-  cmd: `npx @angular/cli new ${appName} --style scss --routing true`,
-  startMsg: "Scaffolding Angular application...",
-  errorMsg: "Error during Angular scaffolding",
-  endMsg: "Angular application scaffolded",
+logStart("Scaffolding Angular application...");
+execFileSync("npx", ["@angular/cli", "new", appName], {
+  stdio: "inherit",
 });
+logEnd("Angular application scaffolded");
 
 shelljs.cd(appName);
 
