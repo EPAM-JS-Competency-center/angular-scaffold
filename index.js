@@ -15,8 +15,8 @@ import { execFileSync } from "child_process";
 const appName = process.argv[2];
 
 logStart("Scaffolding Angular application...");
-execFileSync("npx", ["@angular/cli", "new", appName], {
-  stdio: "inherit",
+execFileSync("npx", ["@angular/cli", "new", appName, "--style", "scss"], {
+  stdio: "inherit"
 });
 logEnd("Angular application scaffolded");
 

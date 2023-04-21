@@ -72,7 +72,7 @@ describe("index.js", () => {
     expect(logStart).toBeCalledWith("Scaffolding Angular application...");
     expect(execFileSync).toBeCalledWith(
       "npx",
-      ["@angular/cli", "new", "test-app"],
+      ["@angular/cli", "new", "test-app", "--style", "scss"],
       {
         stdio: "inherit"
       }
