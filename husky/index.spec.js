@@ -29,7 +29,7 @@ describe("addHusky", () => {
       "npm install husky lint-staged --save-dev"
     );
     expect(shelljs.exec).toHaveBeenCalledWith(
-      'npm set-script prepare "husky install"'
+      'npm pkg set scripts.prepare="husky install"'
     );
     expect(shelljs.exec).toHaveBeenCalledWith("npm run prepare");
     expect(shelljs.exec).toHaveBeenCalledWith(

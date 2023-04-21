@@ -6,7 +6,7 @@ export function addHusky() {
 
   if (
     shelljs.exec("npm install husky lint-staged --save-dev").code !== 0 ||
-    shelljs.exec('npm set-script prepare "husky install"').code !== 0 ||
+    shelljs.exec('npm pkg set scripts.prepare="husky install"').code !== 0 ||
     shelljs.exec("npm run prepare").code !== 0 ||
     shelljs.exec('npx husky add .husky/pre-commit "npx lint-staged"').code !==
       0 ||
