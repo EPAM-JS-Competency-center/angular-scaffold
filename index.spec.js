@@ -3,7 +3,7 @@ import { addJasmineRules } from "./eslint/jasmine";
 import { addRxJSRules } from "./eslint/rxjs";
 import { addSonarRules } from "./eslint/sonar";
 import { addTemplateRules } from "./eslint/template";
-import { commit, execOrFail, logEnd, logStart } from "./helpers";
+import { commit, execOrFail, gitignore, logEnd, logStart } from "./helpers";
 import { addHusky } from "./husky";
 import { addLintStaged } from "./lint-staged";
 import { addPrettier } from "./prettier";
@@ -41,7 +41,8 @@ jest.mock("./helpers/index.js", () => ({
   execOrFail: jest.fn(),
   logEnd: jest.fn(),
   logStart: jest.fn(),
-  commit: jest.fn()
+  commit: jest.fn(),
+  gitignore: jest.fn()
 }));
 
 jest.mock("./husky/index.js", () => ({
@@ -95,11 +96,18 @@ describe("index.js", () => {
     expect(addSonarRules).toHaveBeenCalled();
     expect(commit).toBeCalledWith("Add ESLint rules");
 
+    expect(gitignore).toBeCalledWith(`# lint caches
+.eslintcache`);
+    expect(commit).toBeCalledWith("Add .eslintcache to .gitignore");
+
     expect(addPrettier).toHaveBeenCalled();
     expect(commit).toBeCalledWith("Add Prettier");
 
     expect(addStylelint).toHaveBeenCalled();
     expect(commit).toBeCalledWith("Add Stylelint");
+
+    expect(gitignore).toBeCalledWith(`.stylelintcache`);
+    expect(commit).toBeCalledWith("Add .stylelintcache to .gitignore");
 
     expect(execOrFail).toHaveBeenCalledWith({
       cmd: "npm i -D svgo",

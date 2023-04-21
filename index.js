@@ -5,7 +5,7 @@ import { addJasmineRules } from "./eslint/jasmine.js";
 import { addRxJSRules } from "./eslint/rxjs.js";
 import { addSonarRules } from "./eslint/sonar.js";
 import { addTemplateRules } from "./eslint/template.js";
-import { commit, execOrFail, logEnd, logStart } from "./helpers/index.js";
+import { commit, execOrFail, gitignore, logEnd, logStart } from "./helpers/index.js";
 import { addHusky } from "./husky/index.js";
 import { addLintStaged } from "./lint-staged/index.js";
 import { addPrettier } from "./prettier/index.js";
@@ -38,11 +38,18 @@ addRxJSRules();
 addSonarRules();
 commit("Add ESLint rules");
 
+gitignore(`# lint caches
+.eslintcache`);
+commit("Add .eslintcache to .gitignore");
+
 addPrettier();
 commit("Add Prettier");
 
 addStylelint();
 commit("Add Stylelint");
+
+gitignore(`.stylelintcache`);
+commit("Add .stylelintcache to .gitignore");
 
 // Add svgo
 execOrFail({
