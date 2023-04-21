@@ -1,6 +1,6 @@
 {
   "name": "scaffold-angular",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Script to install Angular and additional tooling",
   "repository": {
     "type": "git",
