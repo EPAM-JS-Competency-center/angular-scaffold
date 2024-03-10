@@ -3,6 +3,7 @@
 ## Features in plan
 
 - Add Storybook
+- Use the new ESLint config format
 
 ## Features in progress
 
