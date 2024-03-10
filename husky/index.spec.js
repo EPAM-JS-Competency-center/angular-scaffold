@@ -1,6 +1,7 @@
 import shelljs from "shelljs";
 import { addHusky } from ".";
 import { logEnd, logError, logStart } from "../helpers";
+import { writeFileSync } from "fs";
 
 jest.mock("../helpers/index.js", () => ({
   __esModule: true,
@@ -19,6 +20,11 @@ jest.mock("shelljs", () => ({
   },
 }));
 
+jest.mock("fs", () => ({
+  __esModule: true,
+  writeFileSync: jest.fn(),
+}));
+
 describe("addHusky", () => {
   it("should install husky", () => {
     addHusky();
@@ -26,42 +32,33 @@ describe("addHusky", () => {
     expect(logStart).toHaveBeenCalledWith("Installing husky");
 
     expect(shelljs.exec).toHaveBeenCalledWith(
-      "npm install husky lint-staged --save-dev"
+      "npm install husky lint-staged --save-dev",
     );
-    expect(shelljs.exec).toHaveBeenCalledWith(
-      'npm pkg set scripts.prepare="husky install"'
+    expect(writeFileSync).toHaveBeenCalledWith(
+      ".husky/pre-commit",
+      `export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+npx lint-staged --allow-empty`,
+      "utf8",
     );
-    expect(shelljs.exec).toHaveBeenCalledWith("npm run prepare");
-    expect(shelljs.exec).toHaveBeenCalledWith(
-      'npx husky add .husky/pre-commit "npx lint-staged"'
-    );
-    expect(shelljs.exec).toHaveBeenCalledWith(
-      'npx husky add .husky/pre-push "npm run test -- --browsers ChromeHeadless --watch false"'
+    expect(writeFileSync).toHaveBeenCalledWith(
+      ".husky/pre-push",
+      "npm run test -- --browsers ChromeHeadless --watch false",
+      "utf8",
     );
 
     expect(logEnd).toHaveBeenCalledWith("Husky installed!");
   });
 
   it("should exit in case any command fails", () => {
-    // 1st command fail
+    // npm i fail
     shelljs.exec.mockReturnValueOnce({
       code: 1,
     });
     addHusky();
 
-    // 2nd command fail
-    shelljs.exec.mockReturnValueOnce({
-      code: 0,
-    });
-    shelljs.exec.mockReturnValueOnce({
-      code: 1,
-    });
-    addHusky();
-
-    // 3rd command fail
-    shelljs.exec.mockReturnValueOnce({
-      code: 0,
-    });
+    // husky init fail
     shelljs.exec.mockReturnValueOnce({
       code: 0,
     });
@@ -70,44 +67,35 @@ describe("addHusky", () => {
     });
     addHusky();
 
-    // 4th command fail
+    // adding precommit fail
     shelljs.exec.mockReturnValueOnce({
       code: 0,
     });
     shelljs.exec.mockReturnValueOnce({
       code: 0,
     });
-    shelljs.exec.mockReturnValueOnce({
-      code: 0,
-    });
-    shelljs.exec.mockReturnValueOnce({
-      code: 1,
+    writeFileSync.mockImplementationOnce(() => {
+      throw new Error("test");
     });
     addHusky();
 
-    // 5th command fail
+    // adding prepush fail
     shelljs.exec.mockReturnValueOnce({
       code: 0,
     });
     shelljs.exec.mockReturnValueOnce({
       code: 0,
     });
-    shelljs.exec.mockReturnValueOnce({
-      code: 0,
-    });
-    shelljs.exec.mockReturnValueOnce({
-      code: 0,
-    });
-    shelljs.exec.mockReturnValueOnce({
-      code: 1,
+    writeFileSync.mockImplementationOnce(() => {});
+    writeFileSync.mockImplementationOnce(() => {
+      throw new Error("test");
     });
     addHusky();
 
     expect(logError).toHaveBeenCalledWith(
-      "Could not install husky. Please, check logs above for the error"
+      "Could not install husky. Please, check logs above for the error",
     );
-    expect(logError).toHaveBeenCalledTimes(5);
-
-    expect(shelljs.exit).toHaveBeenCalledTimes(5);
+    expect(logError).toHaveBeenCalledTimes(6);
+    expect(shelljs.exit).toHaveBeenCalledTimes(4);
   });
 });
