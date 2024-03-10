@@ -1,12 +1,13 @@
 {
   "name": "scaffold-angular",
   "version": "0.0.4",
-  "description": "Script to install Angular and additional tooling",
+  "description": "Script to install Angular, configure ESLint, Stylelint, git hooks.",
   "repository": {
     "type": "git",
     "url": "https://github.com/EPAM-JS-Competency-center/angular-scaffold.git"
   },
   "homepage": "https://github.com/EPAM-JS-Competency-center/angular-scaffold#readme",
+  "bugs": "https://github.com/EPAM-JS-Competency-center/angular-scaffold/issues",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -18,7 +19,10 @@
     "node": ">= 16"
   },
   "bin": "./index.js",
-  "author": "",
+  "author": {
+    "name": "Sergey Gultyayev",
+    "email": "gultyayev.sergey@gmail.com"
+  },
   "license": "MIT",
   "dependencies": {
     "chalk": "^5.2.0",
@@ -38,6 +42,10 @@
   },
   "keywords": [
     "angular",
-    "scaffold"
+    "scaffold",
+    "eslint",
+    "stylelint",
+    "git",
+    "hooks"
   ]
 }
