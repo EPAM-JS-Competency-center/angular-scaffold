@@ -31,21 +31,15 @@ describe("addStylelint", () => {
     expect(logStart).toHaveBeenCalledWith("Installing stylelint");
 
     expect(shelljs.exec).toHaveBeenCalledWith(
-      "npm i -D stylelint stylelint-config-sass-guidelines"
+      "npm i -D stylelint stylelint-config-sass-guidelines",
     );
 
     expect(writeFileSync).toBeCalledWith(
-      "./.stylelintrc.json",
-      JSON.stringify(
-        {
-          extends: [
-            "stylelint-config-sass-guidelines",
-          ],
-        },
-        null,
-        2
-      ),
-      "utf8"
+      "./stylelint.config.js",
+      `module.exports = {
+  extends: ["stylelint-config-sass-guidelines"],
+}`,
+      "utf8",
     );
 
     expect(logEnd).toHaveBeenCalledWith("stylelint installed");

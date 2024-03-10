@@ -13,7 +13,7 @@ export function addPrettier() {
 
   // Create config file for IDEs to recognize Prettier with default config
   writeFileSync(
-    "./.prettierrc.js",
+    "./prettier.config.js",
     `/** @type {import("prettier").Config} */
 module.exports = {}`,
     "utf8",

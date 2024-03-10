@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "fs";
+import { writeFileSync } from "fs";
 import shelljs from "shelljs";
 import { addLintStaged } from ".";
 import { logEnd, logError, logStart } from "../helpers/index.js";
@@ -21,7 +21,6 @@ jest.mock("shelljs", () => ({
 }));
 
 jest.mock("fs", () => ({
-  readFileSync: jest.fn().mockReturnValue("{}"),
   writeFileSync: jest.fn(),
 }));
 
@@ -33,22 +32,14 @@ describe("addLintStaged", () => {
 
     expect(shelljs.exec).toHaveBeenCalledWith("npm i -D lint-staged");
 
-    expect(readFileSync).toHaveBeenCalledWith("./package.json", "utf8");
-
     expect(writeFileSync).toHaveBeenCalledWith(
-      "./package.json",
-      JSON.stringify(
-        {
-          "lint-staged": {
-            "*.{js,ts,html}": ["eslint --fix --cache", "prettier --write"],
-            "*.scss": ["stylelint --fix --cache", "prettier --write"],
-            "!*.{ts,js,html,scss,svg}": "prettier --write --ignore-unknown",
-            "*.svg": "svgo",
-          },
-        },
-        null,
-        2,
-      ),
+      "./lint-staged.config.js",
+      `module.exports = {
+  "*.{js,ts,html}": ["eslint --fix --cache", "prettier --write"],
+  "*.scss": ["stylelint --fix --cache", "prettier --write"],
+  "!*.{ts,js,html,scss,svg}": "prettier --write --ignore-unknown",
+  "*.svg": "svgo",
+}`,
       "utf8",
     );
 

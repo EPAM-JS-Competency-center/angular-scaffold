@@ -8,22 +8,19 @@ export function addStylelint() {
   // Install stylelint and stylelint config to exclude rules controlled by Prettier
   // Install default SASS rules
   if (
-    shelljs.exec(
-      "npm i -D stylelint stylelint-config-sass-guidelines"
-    ).code !== 0
+    shelljs.exec("npm i -D stylelint stylelint-config-sass-guidelines").code !==
+    0
   ) {
     logError("Could not install stylelint");
     return shelljs.exit(1);
   }
 
-  const defaultConfig = {
-    extends: ["stylelint-config-sass-guidelines"],
-  };
-
   writeFileSync(
-    "./.stylelintrc.json",
-    JSON.stringify(defaultConfig, null, 2),
-    "utf8"
+    "./stylelint.config.js",
+    `module.exports = {
+  extends: ["stylelint-config-sass-guidelines"],
+}`,
+    "utf8",
   );
 
   logEnd("stylelint installed");
