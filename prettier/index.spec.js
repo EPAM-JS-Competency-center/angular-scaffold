@@ -31,9 +31,10 @@ describe("addPrettier", () => {
     expect(logStart).toBeCalledWith("Installing prettier");
 
     expect(writeFileSync).toHaveBeenCalledWith(
-      "./.prettierrc.json",
-      "{}",
-      "utf8"
+      "./.prettierrc.js",
+      `/** @type {import("prettier").Config} */
+module.exports = {}`,
+      "utf8",
     );
 
     expect(logEnd).toHaveBeenCalledWith("prettier installed");

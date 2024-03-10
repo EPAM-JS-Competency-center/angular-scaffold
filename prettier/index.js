@@ -12,7 +12,12 @@ export function addPrettier() {
   }
 
   // Create config file for IDEs to recognize Prettier with default config
-  writeFileSync("./.prettierrc.json", "{}", "utf8");
+  writeFileSync(
+    "./.prettierrc.js",
+    `/** @type {import("prettier").Config} */
+module.exports = {}`,
+    "utf8",
+  );
 
   logEnd("prettier installed");
 }
