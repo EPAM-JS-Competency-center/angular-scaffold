@@ -1,7 +1,13 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [0.0.4](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.2...v0.0.4) (2024-03-10)
+
+
+### Bug Fixes
+
+* Use new husky init commands ([204d2f9](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/204d2f9550c52b8947ff2150b0056847f11e3b9a))
 
 ### [0.0.3](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.2...v0.0.3) (2023-04-21)
 
