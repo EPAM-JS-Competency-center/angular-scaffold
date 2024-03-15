@@ -42,10 +42,17 @@
   },
   "keywords": [
     "angular",
-    "scaffold",
     "eslint",
+    "prettier",
     "stylelint",
-    "git",
-    "hooks"
+    "husky",
+    "lint-staged",
+    "linting",
+    "code formatting",
+    "code quality",
+    "code standards",
+    "pre-commit hooks",
+    "git hooks",
+    "project setup"
   ]
 }
