@@ -6,9 +6,7 @@ Strict rules are applied and can be changed later when the app was scaffolded to
 
 ## Prerequisites
 
-Node >= v16
-
-NPM >= 8
+Node >= v18
 
 ## Using the package
 

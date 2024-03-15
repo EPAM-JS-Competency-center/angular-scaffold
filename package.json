@@ -16,7 +16,7 @@
     "prepare": "husky"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 18"
   },
   "bin": "./index.js",
   "author": {
