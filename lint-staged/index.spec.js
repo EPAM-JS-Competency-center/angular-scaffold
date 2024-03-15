@@ -30,7 +30,7 @@ describe("addLintStaged", () => {
 
     expect(logStart).toHaveBeenCalledWith("Installing lint-staged");
 
-    expect(shelljs.exec).toHaveBeenCalledWith("npm i -D lint-staged");
+    expect(shelljs.exec).toHaveBeenCalledWith("npm i -D lint-staged@15");
 
     expect(writeFileSync).toHaveBeenCalledWith(
       "./lint-staged.config.js",

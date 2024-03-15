@@ -1,13 +1,13 @@
 import shelljs from "shelljs";
-import {logEnd, logError, logStart} from "../helpers/index.js";
-import {writeFileSync} from "fs";
+import { logEnd, logError, logStart } from "../helpers/index.js";
+import { writeFileSync } from "fs";
 
 export function addHusky() {
   logStart("Installing husky");
 
   if (
-    shelljs.exec("npm install husky lint-staged --save-dev").code !== 0 ||
-    shelljs.exec('npx husky init').code !== 0 ||
+    shelljs.exec("npm install husky@9 --save-dev").code !== 0 ||
+    shelljs.exec("npx husky init").code !== 0 ||
     !addPreCommit() ||
     !addPrePush()
   ) {
@@ -20,25 +20,33 @@ export function addHusky() {
 
 function addPreCommit() {
   try {
-    writeFileSync('.husky/pre-commit', `export NVM_DIR="$HOME/.nvm"
+    writeFileSync(
+      ".husky/pre-commit",
+      `export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-npx lint-staged --allow-empty`, 'utf8');
+npx lint-staged --allow-empty`,
+      "utf8",
+    );
 
-    return true
+    return true;
   } catch (e) {
-    logError(e)
-    return false
+    logError(e);
+    return false;
   }
 }
 
 function addPrePush() {
   try {
-    writeFileSync('.husky/pre-push', "npm run test -- --browsers ChromeHeadless --watch false", 'utf8')
+    writeFileSync(
+      ".husky/pre-push",
+      "npm run test -- --browsers ChromeHeadless --watch false",
+      "utf8",
+    );
 
-    return true
+    return true;
   } catch (e) {
-    logError(e)
-    return false
+    logError(e);
+    return false;
   }
 }

@@ -6,7 +6,7 @@ import { eslintJasmineRules } from "./rules.js";
 export function addJasmineRules() {
   logStart("Installing ESLint plugin for unit tests");
 
-  if (shelljs.exec("npm i eslint-plugin-jasmine -D").code !== 0) {
+  if (shelljs.exec("npm i eslint-plugin-jasmine@4 -D").code !== 0) {
     logError("Error during installation of ESLint plugin");
     return shelljs.exit(1);
   }

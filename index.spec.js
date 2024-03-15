@@ -42,7 +42,7 @@ jest.mock("./helpers/index.js", () => ({
   logEnd: jest.fn(),
   logStart: jest.fn(),
   commit: jest.fn(),
-  gitignore: jest.fn()
+  gitignore: jest.fn(),
 }));
 
 jest.mock("./husky/index.js", () => ({
@@ -62,7 +62,7 @@ jest.mock("./stylelint/index.js", () => ({
 }));
 
 jest.mock("child_process", () => ({
-  execFileSync: jest.fn()
+  execFileSync: jest.fn(),
 }));
 
 describe("index.js", () => {
@@ -73,20 +73,20 @@ describe("index.js", () => {
     expect(logStart).toBeCalledWith("Scaffolding Angular application...");
     expect(execFileSync).toBeCalledWith(
       "npx",
-      ["@angular/cli", "new", "test-app", "--style", "scss"],
+      ["@angular/cli@17", "new", "test-app", "--style", "scss"],
       {
-        stdio: "inherit"
-      }
+        stdio: "inherit",
+      },
     );
     expect(logEnd).toBeCalledWith("Angular application scaffolded");
 
     expect(shelljs.cd).toBeCalledWith("test-app");
 
     expect(execOrFail).toBeCalledWith({
-      cmd: "npx ng add @angular-eslint/schematics --skip-confirmation",
+      cmd: "npx ng add @angular-eslint/schematics@17 --skip-confirmation",
       startMsg: "Adding @angular-eslint schematics",
       errorMsg: "Error during adding Angular ESLint",
-      endMsg: "@angular-eslint schematics added"
+      endMsg: "@angular-eslint schematics added",
     });
     expect(commit).toBeCalledWith("Add ESLint");
 
@@ -110,10 +110,10 @@ describe("index.js", () => {
     expect(commit).toBeCalledWith("Add .stylelintcache to .gitignore");
 
     expect(execOrFail).toHaveBeenCalledWith({
-      cmd: "npm i -D svgo",
+      cmd: "npm i -D svgo@3",
       startMsg: "Installing svgo",
       errorMsg: "Error during svgo installation",
-      endMsg: "svgo installed"
+      endMsg: "svgo installed",
     });
     expect(commit).toBeCalledWith("Add SVGo");
 

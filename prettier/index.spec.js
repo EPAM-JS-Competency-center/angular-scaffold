@@ -30,6 +30,10 @@ describe("addPrettier", () => {
 
     expect(logStart).toBeCalledWith("Installing prettier");
 
+    expect(shelljs.exec).toHaveBeenCalledWith(
+      "npm i -D prettier@3 eslint-config-prettier@9",
+    );
+
     expect(writeFileSync).toHaveBeenCalledWith(
       "./prettier.config.js",
       `/** @type {import("prettier").Config} */

@@ -51,37 +51,31 @@ const eslintrcExpected = JSON.stringify(
         extends: ["test", "plugin:rxjs/recommended"],
         rules: {
           test_rule: "error",
-          ...eslintRxJSRules
-        }
-      }
+          ...eslintRxJSRules,
+        },
+      },
     ],
     parserOptions: {
-      project: "tsconfig.json"
-    }
+      project: "tsconfig.json",
+    },
   },
   undefined,
-  2
+  2,
 );
 
 describe("addRxJSRules", () => {
   it("should install package and update eslinrc file", () => {
     addRxJSRules();
 
-    expect(logStart).toHaveBeenCalledWith(
-      "Installing ESLint plugin for RxJS"
-    );
-    expect(shelljs.exec).toHaveBeenCalledWith("npm i eslint-plugin-rxjs -D");
-    expect(logEnd).toHaveBeenCalledWith(
-      "ESLint plugin for RxJS installed"
-    );
+    expect(logStart).toHaveBeenCalledWith("Installing ESLint plugin for RxJS");
+    expect(shelljs.exec).toHaveBeenCalledWith("npm i eslint-plugin-rxjs@5 -D");
+    expect(logEnd).toHaveBeenCalledWith("ESLint plugin for RxJS installed");
 
-    expect(logStart).toHaveBeenCalledWith(
-      "Updating ESLint rules for RxJS"
-    );
+    expect(logStart).toHaveBeenCalledWith("Updating ESLint rules for RxJS");
     expect(readFileSync).toHaveBeenCalledWith("./.eslintrc.json", "utf8");
     expect(writeFileSync).toHaveBeenCalledWith(
       "./.eslintrc.json",
-      eslintrcExpected
+      eslintrcExpected,
     );
     expect(logEnd).toHaveBeenCalledWith("ESLint rules for RxJS updated");
   });
@@ -98,7 +92,7 @@ describe("addRxJSRules", () => {
     addRxJSRules();
 
     expect(logError).toHaveBeenCalledWith(
-      "Error during installation of ESLint plugin"
+      "Error during installation of ESLint plugin",
     );
     expect(shelljs.exit).toHaveBeenCalled();
     expect(logEnd).not.toHaveBeenCalled();

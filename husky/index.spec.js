@@ -31,9 +31,7 @@ describe("addHusky", () => {
 
     expect(logStart).toHaveBeenCalledWith("Installing husky");
 
-    expect(shelljs.exec).toHaveBeenCalledWith(
-      "npm install husky lint-staged --save-dev",
-    );
+    expect(shelljs.exec).toHaveBeenCalledWith("npm install husky@9 --save-dev");
     expect(writeFileSync).toHaveBeenCalledWith(
       ".husky/pre-commit",
       `export NVM_DIR="$HOME/.nvm"

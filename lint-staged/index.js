@@ -5,7 +5,7 @@ import { logEnd, logError, logStart } from "../helpers/index.js";
 export function addLintStaged() {
   logStart("Installing lint-staged");
 
-  if (shelljs.exec("npm i -D lint-staged").code !== 0) {
+  if (shelljs.exec("npm i -D lint-staged@15").code !== 0) {
     logError("Could not install lint-staged");
     return shelljs.exit(1);
   }

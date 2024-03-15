@@ -61,7 +61,7 @@ const eslintrcExpected = JSON.stringify(
     ],
   },
   undefined,
-  2
+  2,
 );
 
 describe("addJasmineRules", () => {
@@ -69,20 +69,22 @@ describe("addJasmineRules", () => {
     addJasmineRules();
 
     expect(logStart).toHaveBeenCalledWith(
-      "Installing ESLint plugin for unit tests"
+      "Installing ESLint plugin for unit tests",
     );
-    expect(shelljs.exec).toHaveBeenCalledWith("npm i eslint-plugin-jasmine -D");
+    expect(shelljs.exec).toHaveBeenCalledWith(
+      "npm i eslint-plugin-jasmine@4 -D",
+    );
     expect(logEnd).toHaveBeenCalledWith(
-      "ESLint plugin for unit tests installed"
+      "ESLint plugin for unit tests installed",
     );
 
     expect(logStart).toHaveBeenCalledWith(
-      "Updating ESLint rules for unit tests"
+      "Updating ESLint rules for unit tests",
     );
     expect(readFileSync).toHaveBeenCalledWith("./.eslintrc.json", "utf8");
     expect(writeFileSync).toHaveBeenCalledWith(
       "./.eslintrc.json",
-      eslintrcExpected
+      eslintrcExpected,
     );
     expect(logEnd).toHaveBeenCalledWith("ESLint rules for unit tests updated");
   });
@@ -93,7 +95,7 @@ describe("addJasmineRules", () => {
     addJasmineRules();
 
     expect(logError).toHaveBeenCalledWith(
-      "Error during installation of ESLint plugin"
+      "Error during installation of ESLint plugin",
     );
     expect(shelljs.exit).toHaveBeenCalled();
     expect(logEnd).not.toHaveBeenCalled();

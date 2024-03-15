@@ -69,7 +69,7 @@ const eslintrcExpected = JSON.stringify(
     ],
   },
   undefined,
-  2
+  2,
 );
 
 describe("addSonarRules", () => {
@@ -77,14 +77,16 @@ describe("addSonarRules", () => {
     addSonarRules();
 
     expect(logStart).toHaveBeenCalledWith("Installing ESLint plugin for sonar");
-    expect(shelljs.exec).toHaveBeenCalledWith("npm i eslint-plugin-sonarjs -D");
+    expect(shelljs.exec).toHaveBeenCalledWith(
+      "npm i eslint-plugin-sonarjs@0 -D",
+    );
     expect(logEnd).toHaveBeenCalledWith("ESLint plugin for sonar installed");
 
     expect(logStart).toHaveBeenCalledWith("Updating ESLint rules for sonar");
     expect(readFileSync).toHaveBeenCalledWith("./.eslintrc.json", "utf8");
     expect(writeFileSync).toHaveBeenCalledWith(
       "./.eslintrc.json",
-      eslintrcExpected
+      eslintrcExpected,
     );
     expect(logEnd).toHaveBeenCalledWith("ESLint rules for sonar updated");
   });
@@ -102,7 +104,7 @@ describe("addSonarRules", () => {
 
     expect(writeFileSync).toHaveBeenCalledWith(
       "./.eslintrc.json",
-      eslintrcExpected
+      eslintrcExpected,
     );
   });
 
@@ -112,7 +114,7 @@ describe("addSonarRules", () => {
     addSonarRules();
 
     expect(logError).toHaveBeenCalledWith(
-      "Error during installation of ESLint plugin"
+      "Error during installation of ESLint plugin",
     );
     expect(shelljs.exit).toHaveBeenCalled();
     expect(logEnd).not.toHaveBeenCalled();

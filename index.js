@@ -5,7 +5,13 @@ import { addJasmineRules } from "./eslint/jasmine.js";
 import { addRxJSRules } from "./eslint/rxjs.js";
 import { addSonarRules } from "./eslint/sonar.js";
 import { addTemplateRules } from "./eslint/template.js";
-import { commit, execOrFail, gitignore, logEnd, logStart } from "./helpers/index.js";
+import {
+  commit,
+  execOrFail,
+  gitignore,
+  logEnd,
+  logStart,
+} from "./helpers/index.js";
 import { addHusky } from "./husky/index.js";
 import { addLintStaged } from "./lint-staged/index.js";
 import { addPrettier } from "./prettier/index.js";
@@ -15,8 +21,8 @@ import { execFileSync } from "child_process";
 const appName = process.argv[2];
 
 logStart("Scaffolding Angular application...");
-execFileSync("npx", ["@angular/cli", "new", appName, "--style", "scss"], {
-  stdio: "inherit"
+execFileSync("npx", ["@angular/cli@17", "new", appName, "--style", "scss"], {
+  stdio: "inherit",
 });
 logEnd("Angular application scaffolded");
 
@@ -24,10 +30,10 @@ shelljs.cd(appName);
 
 // Add ESLint
 execOrFail({
-  cmd: "npx ng add @angular-eslint/schematics --skip-confirmation",
+  cmd: "npx ng add @angular-eslint/schematics@17 --skip-confirmation",
   startMsg: "Adding @angular-eslint schematics",
   errorMsg: "Error during adding Angular ESLint",
-  endMsg: "@angular-eslint schematics added"
+  endMsg: "@angular-eslint schematics added",
 });
 commit("Add ESLint");
 
@@ -53,10 +59,10 @@ commit("Add .stylelintcache to .gitignore");
 
 // Add svgo
 execOrFail({
-  cmd: "npm i -D svgo",
+  cmd: "npm i -D svgo@3",
   startMsg: "Installing svgo",
   errorMsg: "Error during svgo installation",
-  endMsg: "svgo installed"
+  endMsg: "svgo installed",
 });
 commit("Add SVGo");
 

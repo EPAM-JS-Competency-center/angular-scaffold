@@ -6,7 +6,7 @@ import { eslintRxJSRules } from "./rules.js";
 export function addRxJSRules() {
   logStart("Installing ESLint plugin for RxJS");
 
-  if (shelljs.exec("npm i eslint-plugin-rxjs -D").code !== 0) {
+  if (shelljs.exec("npm i eslint-plugin-rxjs@5 -D").code !== 0) {
     logError("Error during installation of ESLint plugin");
     return shelljs.exit(1);
   }
@@ -19,11 +19,11 @@ export function addRxJSRules() {
   const eslintrc = JSON.parse(eslintrcFile);
 
   const tsOverride = eslintrc.overrides.find((obj) =>
-    obj.files.includes("*.ts")
+    obj.files.includes("*.ts"),
   );
 
   eslintrc.parserOptions = {
-    project: "tsconfig.json"
+    project: "tsconfig.json",
   };
 
   if (!tsOverride) {
@@ -33,7 +33,7 @@ export function addRxJSRules() {
   tsOverride.extends.push("plugin:rxjs/recommended");
   tsOverride.rules = {
     ...tsOverride.rules,
-    ...eslintRxJSRules
+    ...eslintRxJSRules,
   };
 
   writeFileSync(eslintrcPath, JSON.stringify(eslintrc, undefined, 2));
