@@ -1,7 +1,7 @@
 {
   "name": "scaffold-angular",
   "version": "0.0.6",
-  "description": "Script to install Angular, configure ESLint, Stylelint, git hooks.",
+  "description": "A comprehensive package that sets up a complete Angular application development environment including ESLint, Prettier, Stylelint, Husky, and Lint-Staged for linting, code formatting, and standardized code quality.",
   "repository": {
     "type": "git",
     "url": "https://github.com/EPAM-JS-Competency-center/angular-scaffold.git"
