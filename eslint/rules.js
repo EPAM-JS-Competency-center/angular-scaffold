@@ -12,7 +12,6 @@ export const eslintTemplateRules = {
       allowNullOrUndefined: true,
     },
   ],
-  "@angular-eslint/template/no-call-expression": "error",
   "@angular-eslint/template/no-any": "error",
 };
 
