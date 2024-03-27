@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.7...v0.0.8) (2024-03-27)
+
+
+### Bug Fixes
+
+* remove rule ([592c7cf](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/592c7cfc57758e7d5adb5bd56b2ea54667eb4c5a))
+
 ### [0.0.7](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.6...v0.0.7) (2024-03-15)
 
 
