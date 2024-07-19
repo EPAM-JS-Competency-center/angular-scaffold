@@ -1,0 +1,4 @@
+pre-push:
+  commands:
+    test:
+      run: npm test
