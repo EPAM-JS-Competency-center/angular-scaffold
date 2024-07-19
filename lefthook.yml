@@ -2,3 +2,7 @@ pre-push:
   commands:
     test:
       run: npm test
+commit-msg:
+  scripts:
+    lint-msg.sh:
+      runner: zsh
