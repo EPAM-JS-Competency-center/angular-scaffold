@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.8...v0.0.9) (2024-07-20)
+
+
+### Features
+
+* update eslint-plugin-sonar to v ^1 ([bdd3b25](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/bdd3b2547121e8c0344ef32fed70d2ad1b469088))
+* update schematics to v18 ([6f3d55e](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/6f3d55e9d3ecb463f43c0f68de82a16a8288a2f3))
+
 ### [0.0.8](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.7...v0.0.8) (2024-03-27)
 
 
