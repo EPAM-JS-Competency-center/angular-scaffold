@@ -5,7 +5,7 @@ import { readFileSync, writeFileSync } from "fs";
 export function addSonarRules() {
   logStart("Installing ESLint plugin for sonar");
 
-  if (shelljs.exec("npm i eslint-plugin-sonarjs@0 -D").code !== 0) {
+  if (shelljs.exec("npm i eslint-plugin-sonarjs@1 -D").code !== 0) {
     logError("Error during installation of ESLint plugin");
     return shelljs.exit(1);
   }
@@ -25,7 +25,7 @@ export function addSonarRules() {
     throw new Error("Could not find TS override");
   }
 
-  tsOverride.extends.push("plugin:sonarjs/recommended");
+  tsOverride.extends.push("plugin:sonarjs/recommended-legacy");
 
   if (tsOverride.plugins) {
     tsOverride.plugins.push("sonarjs");

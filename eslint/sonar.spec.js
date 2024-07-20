@@ -60,7 +60,7 @@ const eslintrcExpected = JSON.stringify(
     overrides: [
       {
         files: ["*.ts"],
-        extends: ["test", "plugin:sonarjs/recommended"],
+        extends: ["test", "plugin:sonarjs/recommended-legacy"],
         rules: {
           test_rule: "error",
         },
@@ -78,7 +78,7 @@ describe("addSonarRules", () => {
 
     expect(logStart).toHaveBeenCalledWith("Installing ESLint plugin for sonar");
     expect(shelljs.exec).toHaveBeenCalledWith(
-      "npm i eslint-plugin-sonarjs@0 -D",
+      "npm i eslint-plugin-sonarjs@1 -D",
     );
     expect(logEnd).toHaveBeenCalledWith("ESLint plugin for sonar installed");
 
