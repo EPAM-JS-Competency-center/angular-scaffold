@@ -73,7 +73,7 @@ describe("index.js", () => {
     expect(logStart).toBeCalledWith("Scaffolding Angular application...");
     expect(execFileSync).toBeCalledWith(
       "npx",
-      ["@angular/cli@17", "new", "test-app", "--style", "scss"],
+      ["@angular/cli@18", "new", "test-app", "--style", "scss"],
       {
         stdio: "inherit",
       },
@@ -83,7 +83,7 @@ describe("index.js", () => {
     expect(shelljs.cd).toBeCalledWith("test-app");
 
     expect(execOrFail).toBeCalledWith({
-      cmd: "npx ng add @angular-eslint/schematics@17 --skip-confirmation",
+      cmd: "npm install -D eslint@8 && npx ng add @angular-eslint/schematics@18 --skip-confirmation",
       startMsg: "Adding @angular-eslint schematics",
       errorMsg: "Error during adding Angular ESLint",
       endMsg: "@angular-eslint schematics added",

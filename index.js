@@ -21,7 +21,7 @@ import { execFileSync } from "child_process";
 const appName = process.argv[2];
 
 logStart("Scaffolding Angular application...");
-execFileSync("npx", ["@angular/cli@17", "new", appName, "--style", "scss"], {
+execFileSync("npx", ["@angular/cli@18", "new", appName, "--style", "scss"], {
   stdio: "inherit",
 });
 logEnd("Angular application scaffolded");
@@ -30,7 +30,7 @@ shelljs.cd(appName);
 
 // Add ESLint
 execOrFail({
-  cmd: "npx ng add @angular-eslint/schematics@17 --skip-confirmation",
+  cmd: "npm install -D eslint@8 && npx ng add @angular-eslint/schematics@18 --skip-confirmation",
   startMsg: "Adding @angular-eslint schematics",
   errorMsg: "Error during adding Angular ESLint",
   endMsg: "@angular-eslint schematics added",
