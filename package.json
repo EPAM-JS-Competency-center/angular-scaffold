@@ -4,7 +4,7 @@
   "description": "A comprehensive package that sets up a complete Angular application development environment including ESLint, Prettier, Stylelint, Husky, and Lint-Staged for linting, code formatting, and standardized code quality.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EPAM-JS-Competency-center/angular-scaffold.git"
+    "url": "git+https://github.com/EPAM-JS-Competency-center/angular-scaffold.git"
   },
   "homepage": "https://github.com/EPAM-JS-Competency-center/angular-scaffold#readme",
   "bugs": "https://github.com/EPAM-JS-Competency-center/angular-scaffold/issues",
@@ -17,7 +17,9 @@
   "engines": {
     "node": ">= 18"
   },
-  "bin": "./index.js",
+  "bin": {
+    "scaffold-angular": "index.js"
+  },
   "author": {
     "name": "Sergey Gultyayev",
     "email": "gultyayev.sergey@gmail.com"
