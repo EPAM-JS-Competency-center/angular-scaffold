@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.9...v0.0.10) (2024-07-23)
+
+
+### Features
+
+* use @epam/eslint-config-angular to setup ESLint v9 ([69eb740](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/69eb740c9bdbd7c90ef79b93b54d1512bb89893f))
+
 ### [0.0.9](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.8...v0.0.9) (2024-07-20)
 
 
