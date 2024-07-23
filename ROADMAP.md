@@ -3,9 +3,10 @@
 ## Features in plan
 
 - Add Storybook
-- Use the new ESLint config format
 
 ## Features in progress
+
+- Replace Husky and lint-staged with Lefthook
 
 ## Features added
 
@@ -20,3 +21,4 @@
 - Add Prettier
 - Add SVGO
 - Make "ng new" interactive
+- Use the new ESLint config format
