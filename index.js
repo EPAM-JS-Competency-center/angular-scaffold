@@ -1,10 +1,6 @@
 #!/usr/bin/env node
 
 import shelljs from "shelljs";
-import { addJasmineRules } from "./eslint/jasmine.js";
-import { addRxJSRules } from "./eslint/rxjs.js";
-import { addSonarRules } from "./eslint/sonar.js";
-import { addTemplateRules } from "./eslint/template.js";
 import {
   commit,
   execOrFail,
@@ -17,6 +13,7 @@ import { addLintStaged } from "./lint-staged/index.js";
 import { addPrettier } from "./prettier/index.js";
 import { addStylelint } from "./stylelint/index.js";
 import { execFileSync } from "child_process";
+import { addEslint } from "./eslint/index.js";
 
 const appName = process.argv[2];
 
@@ -28,21 +25,8 @@ logEnd("Angular application scaffolded");
 
 shelljs.cd(appName);
 
-// Add ESLint
-execOrFail({
-  cmd: "npm install -D eslint@8 && npx ng add @angular-eslint/schematics@18 --skip-confirmation",
-  startMsg: "Adding @angular-eslint schematics",
-  errorMsg: "Error during adding Angular ESLint",
-  endMsg: "@angular-eslint schematics added",
-});
+addEslint();
 commit("Add ESLint");
-
-// Add ESLint rules
-addTemplateRules();
-addJasmineRules();
-addRxJSRules();
-addSonarRules();
-commit("Add ESLint rules");
 
 gitignore(`# lint caches
 .eslintcache`);

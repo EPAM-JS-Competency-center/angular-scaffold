@@ -1,14 +1,11 @@
 import shelljs from "shelljs";
-import { addJasmineRules } from "./eslint/jasmine";
-import { addRxJSRules } from "./eslint/rxjs";
-import { addSonarRules } from "./eslint/sonar";
-import { addTemplateRules } from "./eslint/template";
 import { commit, execOrFail, gitignore, logEnd, logStart } from "./helpers";
 import { addHusky } from "./husky";
 import { addLintStaged } from "./lint-staged";
 import { addPrettier } from "./prettier";
 import { addStylelint } from "./stylelint";
 import { execFileSync } from "child_process";
+import { addEslint } from "./eslint/index.js";
 
 jest.mock("shelljs", () => ({
   __esModule: true,
@@ -17,24 +14,9 @@ jest.mock("shelljs", () => ({
   },
 }));
 
-jest.mock("./eslint/template.js", () => ({
+jest.mock("./eslint/index.js", () => ({
   __esModule: true,
-  addTemplateRules: jest.fn(),
-}));
-
-jest.mock("./eslint/jasmine.js", () => ({
-  __esModule: true,
-  addJasmineRules: jest.fn(),
-}));
-
-jest.mock("./eslint/rxjs.js", () => ({
-  __esModule: true,
-  addRxJSRules: jest.fn(),
-}));
-
-jest.mock("./eslint/sonar.js", () => ({
-  __esModule: true,
-  addSonarRules: jest.fn(),
+  addEslint: jest.fn(),
 }));
 
 jest.mock("./helpers/index.js", () => ({
@@ -82,19 +64,8 @@ describe("index.js", () => {
 
     expect(shelljs.cd).toBeCalledWith("test-app");
 
-    expect(execOrFail).toBeCalledWith({
-      cmd: "npm install -D eslint@8 && npx ng add @angular-eslint/schematics@18 --skip-confirmation",
-      startMsg: "Adding @angular-eslint schematics",
-      errorMsg: "Error during adding Angular ESLint",
-      endMsg: "@angular-eslint schematics added",
-    });
+    expect(addEslint).toBeCalled();
     expect(commit).toBeCalledWith("Add ESLint");
-
-    expect(addTemplateRules).toHaveBeenCalled();
-    expect(addJasmineRules).toHaveBeenCalled();
-    expect(addRxJSRules).toHaveBeenCalled();
-    expect(addSonarRules).toHaveBeenCalled();
-    expect(commit).toBeCalledWith("Add ESLint rules");
 
     expect(gitignore).toBeCalledWith(`# lint caches
 .eslintcache`);
