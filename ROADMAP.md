@@ -3,6 +3,7 @@
 ## Features in plan
 
 - Add Storybook
+- Add Jest integration
 
 ## Features in progress
 
@@ -13,7 +14,6 @@
 - Add Angular app scaffold
 - Add ESLint
 - Add ESLint rules for templates
-- Add ESLint rules for Jasmine
 - Add ESLint rules for RxJS
 - Add ESLint sonarjs rules
 - Add Stylelint
