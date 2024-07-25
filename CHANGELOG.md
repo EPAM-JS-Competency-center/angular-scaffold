@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.11](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.10...v0.0.11) (2024-07-25)
+
+### Features
+
+- use lefthook instead of husky and lint-staged ([2b9d17c](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/2b9d17c94241ecbbc4f8822bef0707024d4e8e0e))
+
+### Bug Fixes
+
+- add missing eslint configuration ([bba502b](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/bba502b25e737fe2f10e6295dc53b72286bdfd54))
+
 ### [0.0.10](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.9...v0.0.10) (2024-07-23)
 
 ### Features
