@@ -1,6 +1,7 @@
 import { execOrFail } from "../helpers/index.js";
 import { addEslint } from "./index.js";
 import { renameSync, writeFileSync } from "fs";
+import { eslintConfig } from "./config.js";
 
 jest.mock("../helpers/index.js", () => ({
   __esModule: true,
@@ -35,9 +36,7 @@ describe("addEsLint", () => {
     );
     expect(writeFileSync).toHaveBeenCalledWith(
       "eslint.config.mjs",
-      `import eslintConfigAngular from "@epam/eslint-config-angular";
-
-export default [...eslintConfigAngular];`,
+      eslintConfig,
       "utf8",
     );
   });

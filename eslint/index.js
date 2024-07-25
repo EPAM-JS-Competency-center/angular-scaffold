@@ -1,5 +1,6 @@
 import { execOrFail } from "../helpers/index.js";
 import { renameSync, writeFileSync } from "fs";
+import { eslintConfig } from "./config.js";
 
 export function addEslint() {
   execOrFail({
@@ -15,11 +16,5 @@ export function addEslint() {
     endMsg: "@epam/eslint-config-angular added and configured",
   });
   renameSync("eslint.config.js", "eslint.config.mjs");
-  writeFileSync(
-    "eslint.config.mjs",
-    `import eslintConfigAngular from "@epam/eslint-config-angular";
-
-export default [...eslintConfigAngular];`,
-    "utf8",
-  );
+  writeFileSync("eslint.config.mjs", eslintConfig, "utf8");
 }
