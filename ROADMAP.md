@@ -3,11 +3,10 @@
 ## Features in plan
 
 - Add Storybook
-- Add Jest integration
 
 ## Features in progress
 
-- Replace Husky and lint-staged with Lefthook
+- Add Jest integration
 
 ## Features added
 
@@ -22,3 +21,4 @@
 - Add SVGO
 - Make "ng new" interactive
 - Use the new ESLint config format
+- Replace Husky and lint-staged with Lefthook
