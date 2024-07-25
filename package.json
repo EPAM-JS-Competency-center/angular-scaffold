@@ -12,6 +12,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
+    "prerelease": "jest",
     "release": "standard-version"
   },
   "engines": {
