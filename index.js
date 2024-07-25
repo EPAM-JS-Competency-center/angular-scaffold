@@ -8,12 +8,11 @@ import {
   logEnd,
   logStart,
 } from "./helpers/index.js";
-import { addHusky } from "./husky/index.js";
-import { addLintStaged } from "./lint-staged/index.js";
 import { addPrettier } from "./prettier/index.js";
 import { addStylelint } from "./stylelint/index.js";
 import { execFileSync } from "child_process";
 import { addEslint } from "./eslint/index.js";
+import { addLefthook } from "./lefthook/index.js";
 
 const appName = process.argv[2];
 
@@ -50,10 +49,7 @@ execOrFail({
 });
 commit("Add SVGo");
 
-addLintStaged();
-commit("Add Lint staged");
-
-addHusky();
-commit("Add Husky");
+addLefthook();
+commit("Add Lefthook");
 
 logEnd("Ready to work!");

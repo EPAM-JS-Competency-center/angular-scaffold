@@ -1,11 +1,10 @@
 import shelljs from "shelljs";
 import { commit, execOrFail, gitignore, logEnd, logStart } from "./helpers";
-import { addHusky } from "./husky";
-import { addLintStaged } from "./lint-staged";
 import { addPrettier } from "./prettier";
 import { addStylelint } from "./stylelint";
 import { execFileSync } from "child_process";
 import { addEslint } from "./eslint/index.js";
+import { addLefthook } from "./lefthook/index.js";
 
 jest.mock("shelljs", () => ({
   __esModule: true,
@@ -27,12 +26,8 @@ jest.mock("./helpers/index.js", () => ({
   gitignore: jest.fn(),
 }));
 
-jest.mock("./husky/index.js", () => ({
-  addHusky: jest.fn(),
-}));
-
-jest.mock("./lint-staged/index.js", () => ({
-  addLintStaged: jest.fn(),
+jest.mock("./lefthook/index.js", () => ({
+  addLefthook: jest.fn(),
 }));
 
 jest.mock("./prettier/index.js", () => ({
@@ -88,11 +83,8 @@ describe("index.js", () => {
     });
     expect(commit).toBeCalledWith("Add SVGo");
 
-    expect(addLintStaged).toHaveBeenCalled();
-    expect(commit).toBeCalledWith("Add Lint staged");
-
-    expect(addHusky).toHaveBeenCalled();
-    expect(commit).toBeCalledWith("Add Husky");
+    expect(addLefthook).toHaveBeenCalled();
+    expect(commit).toBeCalledWith("Add Lefthook");
 
     expect(logEnd).toHaveBeenCalledWith("Ready to work!");
   });
