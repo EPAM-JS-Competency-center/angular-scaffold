@@ -6,3 +6,9 @@ commit-msg:
   scripts:
     lint-msg.sh:
       runner: bash
+pre-commit:
+  parallel: true
+  commands:
+    prettier:
+      run: prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true

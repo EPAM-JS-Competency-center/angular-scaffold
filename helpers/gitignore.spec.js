@@ -3,11 +3,11 @@ import { readFileSync, writeFileSync } from "fs";
 
 jest.mock("fs", () => ({
   readFileSync: jest.fn().mockReturnValue(`node_modules`),
-  writeFileSync: jest.fn()
+  writeFileSync: jest.fn(),
 }));
 
-describe("gitignore", function() {
-  it("should add a new line", function() {
+describe("gitignore", function () {
+  it("should add a new line", function () {
     gitignore(".eslintcache");
 
     expect(readFileSync).toBeCalledWith(".gitignore", "utf-8");
