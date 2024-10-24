@@ -10,5 +10,5 @@ pre-commit:
   parallel: true
   commands:
     prettier:
-      run: prettier --write --ignore-unknown {staged_files}
+      run: npx prettier --write --ignore-unknown {staged_files}
       stage_fixed: true
