@@ -3,6 +3,8 @@
 ## Features in plan
 
 - Add Storybook
+- Run prettier after scaffolding
+- Improve lefthook configuration
 
 ## Features in progress
 
