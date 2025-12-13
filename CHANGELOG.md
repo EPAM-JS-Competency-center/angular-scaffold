@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.12](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.11...v0.0.12) (2025-12-13)
+
+### Features
+
+- improve error handling ([a33cacc](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/a33cacc4b55ec11d705e6831790602ea4fdf08a5))
+- resolve angular cli issues ([955ab03](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/955ab035b164589d94b781408ab253fe6935fa58))
+- update packages ([e9256a4](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/e9256a4641b085999912289a53b47a6480ff53c6))
+
 ### [0.0.11](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.10...v0.0.11) (2024-07-25)
 
 ### Features
