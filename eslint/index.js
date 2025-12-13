@@ -1,10 +1,10 @@
-import { execOrFail } from "../helpers/index.js";
+import { ANGULAR_CLI_MAJOR_VERSION, execOrFail } from "../helpers/index.js";
 import { renameSync, writeFileSync } from "fs";
 import { eslintConfig } from "./config.js";
 
 export function addEslint() {
   execOrFail({
-    cmd: "npx ng add @angular-eslint/schematics@21 --skip-confirmation",
+    cmd: `npx ng add @angular-eslint/schematics@${ANGULAR_CLI_MAJOR_VERSION} --skip-confirmation`,
     startMsg: "Adding @angular-eslint schematics",
     errorMsg: "Error during adding Angular ESLint",
     endMsg: "@angular-eslint schematics added",

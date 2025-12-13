@@ -5,6 +5,7 @@ import { eslintConfig } from "./config.js";
 
 jest.mock("../helpers/index.js", () => ({
   __esModule: true,
+  ANGULAR_CLI_MAJOR_VERSION: "21",
   execOrFail: jest.fn(),
 }));
 

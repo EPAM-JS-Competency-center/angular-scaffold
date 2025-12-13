@@ -1,5 +1,12 @@
 import shelljs from "shelljs";
-import { commit, execOrFail, gitignore, logEnd, logStart } from "./helpers";
+import {
+  commit,
+  ensureAngularCliVersion,
+  execOrFail,
+  gitignore,
+  logEnd,
+  logStart,
+} from "./helpers";
 import { addPrettier } from "./prettier";
 import { addStylelint } from "./stylelint";
 import { execFileSync } from "child_process";
@@ -19,6 +26,8 @@ jest.mock("./eslint/index.js", () => ({
 }));
 
 jest.mock("./helpers/index.js", () => ({
+  ANGULAR_CLI_MAJOR_VERSION: "21",
+  ensureAngularCliVersion: jest.fn().mockResolvedValue(undefined),
   execOrFail: jest.fn(),
   logEnd: jest.fn(),
   logStart: jest.fn(),
@@ -47,6 +56,7 @@ describe("index.js", () => {
     process.argv = ["node", "index.js", "test-app"];
     await import("./index.js");
 
+    expect(ensureAngularCliVersion).toHaveBeenCalled();
     expect(logStart).toHaveBeenCalledWith("Scaffolding Angular application...");
     expect(execFileSync).toHaveBeenCalledWith(
       "npx",

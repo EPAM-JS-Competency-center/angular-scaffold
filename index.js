@@ -2,7 +2,9 @@
 
 import shelljs from "shelljs";
 import {
+  ANGULAR_CLI_MAJOR_VERSION,
   commit,
+  ensureAngularCliVersion,
   execOrFail,
   gitignore,
   logEnd,
@@ -15,48 +17,60 @@ import { execFileSync } from "child_process";
 import { addEslint } from "./eslint/index.js";
 import { addLefthook } from "./lefthook/index.js";
 
-const appName = process.argv[2];
+(async () => {
+  const appName = process.argv[2];
 
-if (!appName) {
-  logError("Please provide an application name");
-  logError("Usage: npx scaffold-angular <app-name>");
-  process.exit(1);
-}
+  if (!appName) {
+    logError("Please provide an application name");
+    logError("Usage: npx scaffold-angular <app-name>");
+    process.exit(1);
+  }
 
-logStart("Scaffolding Angular application...");
-execFileSync("npx", ["@angular/cli@21", "new", appName, "--style", "scss"], {
-  stdio: "inherit",
-});
-logEnd("Angular application scaffolded");
+  await ensureAngularCliVersion();
 
-shelljs.cd(appName);
+  logStart("Scaffolding Angular application...");
+  execFileSync(
+    "npx",
+    [
+      `@angular/cli@${ANGULAR_CLI_MAJOR_VERSION}`,
+      "new",
+      appName,
+      "--style",
+      "scss",
+    ],
+    { stdio: "inherit" },
+  );
+  logEnd("Angular application scaffolded");
 
-addEslint();
-commit("Add ESLint");
+  shelljs.cd(appName);
 
-gitignore(`# lint caches
+  addEslint();
+  commit("Add ESLint");
+
+  gitignore(`# lint caches
 .eslintcache`);
-commit("Add .eslintcache to .gitignore");
+  commit("Add .eslintcache to .gitignore");
 
-addPrettier();
-commit("Add Prettier");
+  addPrettier();
+  commit("Add Prettier");
 
-addStylelint();
-commit("Add Stylelint");
+  addStylelint();
+  commit("Add Stylelint");
 
-gitignore(`.stylelintcache`);
-commit("Add .stylelintcache to .gitignore");
+  gitignore(`.stylelintcache`);
+  commit("Add .stylelintcache to .gitignore");
 
-// Add svgo
-execOrFail({
-  cmd: "npm i -D svgo@4",
-  startMsg: "Installing svgo",
-  errorMsg: "Error during svgo installation",
-  endMsg: "svgo installed",
-});
-commit("Add SVGo");
+  // Add svgo
+  execOrFail({
+    cmd: "npm i -D svgo@4",
+    startMsg: "Installing svgo",
+    errorMsg: "Error during svgo installation",
+    endMsg: "svgo installed",
+  });
+  commit("Add SVGo");
 
-addLefthook();
-commit("Add Lefthook");
+  addLefthook();
+  commit("Add Lefthook");
 
-logEnd("Ready to work!");
+  logEnd("Ready to work!");
+})();
