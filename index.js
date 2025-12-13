@@ -6,6 +6,7 @@ import {
   execOrFail,
   gitignore,
   logEnd,
+  logError,
   logStart,
 } from "./helpers/index.js";
 import { addPrettier } from "./prettier/index.js";
@@ -15,6 +16,12 @@ import { addEslint } from "./eslint/index.js";
 import { addLefthook } from "./lefthook/index.js";
 
 const appName = process.argv[2];
+
+if (!appName) {
+  logError("Please provide an application name");
+  logError("Usage: npx scaffold-angular <app-name>");
+  process.exit(1);
+}
 
 logStart("Scaffolding Angular application...");
 execFileSync("npx", ["@angular/cli@21", "new", appName, "--style", "scss"], {
