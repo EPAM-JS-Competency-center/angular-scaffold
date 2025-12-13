@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.13](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.12...v0.0.13) (2025-12-13)
+
+### Features
+
+- add jest ([66c1482](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/66c1482ce53c69e5548e0df363344409ecd96033))
+
 ### [0.0.12](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.11...v0.0.12) (2025-12-13)
 
 ### Features

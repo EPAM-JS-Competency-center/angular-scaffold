@@ -1,6 +1,6 @@
 {
   "name": "scaffold-angular",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "A comprehensive package that sets up a complete Angular application development environment including ESLint, Prettier, Stylelint, Husky, and Lint-Staged for linting, code formatting, and standardized code quality.",
   "repository": {
     "type": "git",
