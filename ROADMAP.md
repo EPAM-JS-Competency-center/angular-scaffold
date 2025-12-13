@@ -8,8 +8,6 @@
 
 ## Features in progress
 
-- Add Jest integration
-
 ## Features added
 
 - Add Angular app scaffold
@@ -24,3 +22,4 @@
 - Make "ng new" interactive
 - Use the new ESLint config format
 - Replace Husky and lint-staged with Lefthook
+- Add Jest integration

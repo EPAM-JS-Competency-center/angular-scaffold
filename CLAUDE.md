@@ -24,6 +24,7 @@ helpers/              # Utility functions (exec, logging, git, angular-cli versi
 eslint/               # ESLint installation and config template
 prettier/             # Prettier installation
 stylelint/            # Stylelint installation
+jest/                 # Jest (jest-preset-angular) installation and config templates
 lefthook/             # Git hooks (Lefthook) installation and config template
 ```
 
@@ -33,13 +34,18 @@ When run via `npx scaffold-angular <app-name>`:
 
 1. Validates app name parameter is provided
 2. Ensures Angular CLI v21 is available (prompts to update if needed)
-3. Creates new Angular app with SCSS styling
+3. Creates new Angular app with SCSS styling and `--minimal` flag
 4. Sequentially installs tooling, each as a separate git commit:
+
+**Note on `--minimal` flag:** This flag is used solely to prevent Angular CLI from installing its default test
+framework (Vitest as of Angular 21). We install Jest instead. If `--minimal` starts affecting other desired scaffolding
+behavior, reconsider the approach (e.g., use explicit `--test-runner` flag or post-scaffold removal).
 
 - ESLint (with `@epam/eslint-config-angular`)
 - Prettier
 - Stylelint (with sass-guidelines)
 - SVGO
+- Jest (with `jest-preset-angular`)
 - Lefthook (git hooks for pre-commit, pre-push, commit-msg)
 
 ## Key Dependencies
@@ -53,7 +59,7 @@ Tests use Jest with Babel for ESM support. Each module has a corresponding `.spe
 
 - `index.spec.js` - Main CLI flow
 - `helpers/*.spec.js` - Utility function tests
-- `eslint/index.spec.js`, `prettier/index.spec.js`, etc. - Module tests
+- `eslint/index.spec.js`, `prettier/index.spec.js`, `jest/index.spec.js`, etc. - Module tests
 
 ## Code Conventions
 
@@ -70,6 +76,9 @@ Generated projects include:
 - `eslint.config.mjs` - Flat ESLint config with Angular rules
 - `prettier.config.js` - Prettier config (empty, uses defaults)
 - `stylelint.config.js` - Stylelint with sass-guidelines
+- `jest.config.ts` - Jest config using `jest-preset-angular`
+- `setup-jest.ts` - Jest setup file for Angular zone environment
+- `tsconfig.spec.json` - TypeScript config for Jest tests
 - `lefthook.yml` - Git hooks config (pre-commit: lint/format, pre-push: test, commit-msg: validate)
 - `.gitignore` additions for cache files
 

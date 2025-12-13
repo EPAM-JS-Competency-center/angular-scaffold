@@ -17,4 +17,4 @@ export const lefthookConfig = String.raw`pre-commit:
 pre-push:
   commands:
     test:
-      run: npm test -- --browsers ChromeHeadless --watch false`;
+      run: npm test`;

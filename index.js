@@ -16,6 +16,7 @@ import { addStylelint } from "./stylelint/index.js";
 import { execFileSync } from "child_process";
 import { addEslint } from "./eslint/index.js";
 import { addLefthook } from "./lefthook/index.js";
+import { addJest } from "./jest/index.js";
 
 (async () => {
   const appName = process.argv[2];
@@ -37,6 +38,7 @@ import { addLefthook } from "./lefthook/index.js";
       appName,
       "--style",
       "scss",
+      "--minimal",
     ],
     { stdio: "inherit" },
   );
@@ -68,6 +70,9 @@ import { addLefthook } from "./lefthook/index.js";
     endMsg: "svgo installed",
   });
   commit("Add SVGo");
+
+  addJest();
+  commit("Add Jest");
 
   addLefthook();
   commit("Add Lefthook");

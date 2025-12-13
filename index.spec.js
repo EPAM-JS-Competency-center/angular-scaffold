@@ -12,6 +12,7 @@ import { addStylelint } from "./stylelint";
 import { execFileSync } from "child_process";
 import { addEslint } from "./eslint/index.js";
 import { addLefthook } from "./lefthook/index.js";
+import { addJest } from "./jest/index.js";
 
 jest.mock("shelljs", () => ({
   __esModule: true,
@@ -33,6 +34,10 @@ jest.mock("./helpers/index.js", () => ({
   logStart: jest.fn(),
   commit: jest.fn(),
   gitignore: jest.fn(),
+}));
+
+jest.mock("./jest/index.js", () => ({
+  addJest: jest.fn(),
 }));
 
 jest.mock("./lefthook/index.js", () => ({
@@ -60,7 +65,7 @@ describe("index.js", () => {
     expect(logStart).toHaveBeenCalledWith("Scaffolding Angular application...");
     expect(execFileSync).toHaveBeenCalledWith(
       "npx",
-      ["@angular/cli@21", "new", "test-app", "--style", "scss"],
+      ["@angular/cli@21", "new", "test-app", "--style", "scss", "--minimal"],
       {
         stdio: "inherit",
       },
@@ -92,6 +97,9 @@ describe("index.js", () => {
       endMsg: "svgo installed",
     });
     expect(commit).toHaveBeenCalledWith("Add SVGo");
+
+    expect(addJest).toHaveBeenCalled();
+    expect(commit).toHaveBeenCalledWith("Add Jest");
 
     expect(addLefthook).toHaveBeenCalled();
     expect(commit).toHaveBeenCalledWith("Add Lefthook");
