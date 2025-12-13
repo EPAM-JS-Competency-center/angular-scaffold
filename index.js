@@ -17,7 +17,7 @@ import { addLefthook } from "./lefthook/index.js";
 const appName = process.argv[2];
 
 logStart("Scaffolding Angular application...");
-execFileSync("npx", ["@angular/cli@18", "new", appName, "--style", "scss"], {
+execFileSync("npx", ["@angular/cli@21", "new", appName, "--style", "scss"], {
   stdio: "inherit",
 });
 logEnd("Angular application scaffolded");
@@ -42,7 +42,7 @@ commit("Add .stylelintcache to .gitignore");
 
 // Add svgo
 execOrFail({
-  cmd: "npm i -D svgo@3",
+  cmd: "npm i -D svgo@4",
   startMsg: "Installing svgo",
   errorMsg: "Error during svgo installation",
   endMsg: "svgo installed",

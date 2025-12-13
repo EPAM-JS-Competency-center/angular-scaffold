@@ -8,7 +8,7 @@ export function addStylelint() {
   // Install stylelint and stylelint config to exclude rules controlled by Prettier
   // Install default SASS rules
   if (
-    shelljs.exec("npm i -D stylelint@16 stylelint-config-sass-guidelines@11")
+    shelljs.exec("npm i -D stylelint@16 stylelint-config-sass-guidelines@12")
       .code !== 0
   ) {
     logError("Could not install stylelint");

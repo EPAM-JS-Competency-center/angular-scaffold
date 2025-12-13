@@ -9,8 +9,8 @@ describe("commit", function () {
   it("should stage files and commit", function () {
     commit("test message");
 
-    expect(execFileSync).toBeCalledWith("git", ["add", "."]);
-    expect(execFileSync).toBeCalledWith("git", [
+    expect(execFileSync).toHaveBeenCalledWith("git", ["add", "."]);
+    expect(execFileSync).toHaveBeenCalledWith("git", [
       "commit",
       "-m",
       "test message",

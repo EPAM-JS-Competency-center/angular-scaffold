@@ -19,7 +19,7 @@ describe("addEsLint", () => {
     addEslint();
 
     expect(execOrFail).toHaveBeenCalledWith({
-      cmd: "npx ng add @angular-eslint/schematics@18 --skip-confirmation",
+      cmd: "npx ng add @angular-eslint/schematics@21 --skip-confirmation",
       startMsg: "Adding @angular-eslint schematics",
       errorMsg: "Error during adding Angular ESLint",
       endMsg: "@angular-eslint schematics added",

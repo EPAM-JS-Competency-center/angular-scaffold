@@ -28,10 +28,10 @@ describe("addPrettier", () => {
   it("should install prettier", () => {
     addPrettier();
 
-    expect(logStart).toBeCalledWith("Installing prettier");
+    expect(logStart).toHaveBeenCalledWith("Installing prettier");
 
     expect(shelljs.exec).toHaveBeenCalledWith(
-      "npm i -D prettier@3 eslint-config-prettier@9",
+      "npm i -D prettier@3 eslint-config-prettier@10",
     );
 
     expect(writeFileSync).toHaveBeenCalledWith(

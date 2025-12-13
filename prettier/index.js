@@ -6,7 +6,9 @@ export function addPrettier() {
   logStart("Installing prettier");
 
   // Install Prettier and ESLint config to exclude rules controlled by Prettier
-  if (shelljs.exec("npm i -D prettier@3 eslint-config-prettier@9").code !== 0) {
+  if (
+    shelljs.exec("npm i -D prettier@3 eslint-config-prettier@10").code !== 0
+  ) {
     logError("Could not install prettier");
     return shelljs.exit(1);
   }

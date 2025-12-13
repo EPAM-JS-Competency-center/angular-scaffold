@@ -10,12 +10,12 @@ describe("gitignore", function () {
   it("should add a new line", function () {
     gitignore(".eslintcache");
 
-    expect(readFileSync).toBeCalledWith(".gitignore", "utf-8");
-    expect(writeFileSync).toBeCalledWith(
+    expect(readFileSync).toHaveBeenCalledWith(".gitignore", "utf-8");
+    expect(writeFileSync).toHaveBeenCalledWith(
       ".gitignore",
       `node_modules
 .eslintcache
-`
+`,
     );
   });
 });
