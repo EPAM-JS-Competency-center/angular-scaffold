@@ -1,7 +1,7 @@
 import { execOrFail } from "../helpers/index.js";
 import { addJest } from "./index.js";
 import { readFileSync, writeFileSync } from "fs";
-import { jestConfig, setupJest, tsconfigSpec } from "./config.js";
+import { appSpec, jestConfig, setupJest, tsconfigSpec } from "./config.js";
 
 jest.mock("../helpers/index.js", () => ({
   __esModule: true,
@@ -12,7 +12,12 @@ const mockPackageJson = { scripts: {} };
 const mockTsconfig = `{
   "compilerOptions": {
     "target": "ES2022"
-  }
+  },
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
 }`;
 
 jest.mock("fs", () => ({
@@ -49,6 +54,11 @@ describe("addJest", () => {
       tsconfigSpec,
       "utf8",
     );
+    expect(writeFileSync).toHaveBeenCalledWith(
+      "src/app/app.spec.ts",
+      appSpec,
+      "utf8",
+    );
     expect(readFileSync).toHaveBeenCalledWith("package.json", "utf8");
     expect(writeFileSync).toHaveBeenCalledWith(
       "package.json",
@@ -62,7 +72,15 @@ describe("addJest", () => {
   "compilerOptions": {
     "esModuleInterop": true,
     "target": "ES2022"
-  }
+  },
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }`,
       "utf8",
     );
