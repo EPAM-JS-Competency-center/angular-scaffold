@@ -77,5 +77,13 @@ import { addJest } from "./jest/index.js";
   addLefthook();
   commit("Add Lefthook");
 
+  execOrFail({
+    cmd: "npx prettier --write .",
+    startMsg: "Formatting files with Prettier",
+    errorMsg: "Error during Prettier formatting",
+    endMsg: "Files formatted",
+  });
+  commit("Format files with Prettier");
+
   logEnd("Ready to work!");
 })();

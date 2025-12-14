@@ -104,6 +104,14 @@ describe("index.js", () => {
     expect(addLefthook).toHaveBeenCalled();
     expect(commit).toHaveBeenCalledWith("Add Lefthook");
 
+    expect(execOrFail).toHaveBeenCalledWith({
+      cmd: "npx prettier --write .",
+      startMsg: "Formatting files with Prettier",
+      errorMsg: "Error during Prettier formatting",
+      endMsg: "Files formatted",
+    });
+    expect(commit).toHaveBeenCalledWith("Format files with Prettier");
+
     expect(logEnd).toHaveBeenCalledWith("Ready to work!");
   });
 });

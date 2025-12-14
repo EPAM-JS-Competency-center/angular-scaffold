@@ -3,12 +3,13 @@
 ## Features in plan
 
 - Add Storybook
-- Run prettier after scaffolding
-- Improve lefthook configuration
 
 ## Features in progress
 
 ## Features added
+
+- Run prettier after scaffolding
+- Improve lefthook configuration
 
 - Add Angular app scaffold
 - Add ESLint
