@@ -94,3 +94,4 @@ Follow Conventional Commits: `type(scope): description`
 
 - Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`
 - Example: `feat: add jest support`
+- do not add claude references in the commits
