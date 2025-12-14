@@ -84,7 +84,7 @@ Generated projects include:
 
 ## Version Constraints
 
-- Node.js >= 18 required
+- Node.js ^20.19.0 || ^22.12.0 || ^24.0.0 (aligned with Angular 21)
 - Angular CLI v21 (checked/prompted at runtime)
 - All scaffolded tool versions are pinned in respective module files
 

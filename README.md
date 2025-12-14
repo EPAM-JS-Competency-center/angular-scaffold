@@ -11,7 +11,7 @@ Strict rules are applied and can be changed later when the app was scaffolded to
 
 ## Prerequisites
 
-Node >= v18
+Node.js ^20.19.0 || ^22.12.0 || ^24.0.0 (aligned with Angular 21 requirements)
 
 ## Using the package
 
