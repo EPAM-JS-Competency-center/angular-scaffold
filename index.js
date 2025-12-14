@@ -17,6 +17,7 @@ import { execFileSync } from "child_process";
 import { addEslint } from "./eslint/index.js";
 import { addLefthook } from "./lefthook/index.js";
 import { addJest } from "./jest/index.js";
+import { addStorybook } from "./storybook/index.js";
 
 (async () => {
   const appName = process.argv[2];
@@ -73,6 +74,9 @@ import { addJest } from "./jest/index.js";
 
   addJest();
   commit("Add Jest");
+
+  addStorybook();
+  commit("Add Storybook");
 
   addLefthook();
   commit("Add Lefthook");

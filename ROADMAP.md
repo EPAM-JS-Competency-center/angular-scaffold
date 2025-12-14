@@ -2,12 +2,14 @@
 
 ## Features in plan
 
-- Add Storybook
+- Add user-friendly CLI (show available flags/options and their descriptions)
+- Allow overriding SCSS style (requires adjusting stylelint to skip SCSS rules for non-SCSS styles)
 
 ## Features in progress
 
 ## Features added
 
+- Add Storybook
 - Run prettier after scaffolding
 - Improve lefthook configuration
 

@@ -13,6 +13,7 @@ import { execFileSync } from "child_process";
 import { addEslint } from "./eslint/index.js";
 import { addLefthook } from "./lefthook/index.js";
 import { addJest } from "./jest/index.js";
+import { addStorybook } from "./storybook/index.js";
 
 jest.mock("shelljs", () => ({
   __esModule: true,
@@ -42,6 +43,10 @@ jest.mock("./jest/index.js", () => ({
 
 jest.mock("./lefthook/index.js", () => ({
   addLefthook: jest.fn(),
+}));
+
+jest.mock("./storybook/index.js", () => ({
+  addStorybook: jest.fn(),
 }));
 
 jest.mock("./prettier/index.js", () => ({
@@ -100,6 +105,9 @@ describe("index.js", () => {
 
     expect(addJest).toHaveBeenCalled();
     expect(commit).toHaveBeenCalledWith("Add Jest");
+
+    expect(addStorybook).toHaveBeenCalled();
+    expect(commit).toHaveBeenCalledWith("Add Storybook");
 
     expect(addLefthook).toHaveBeenCalled();
     expect(commit).toHaveBeenCalledWith("Add Lefthook");
