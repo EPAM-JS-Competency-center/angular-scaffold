@@ -1,6 +1,14 @@
 export const eslintConfig = `import eslintConfigAngular from "@epam/eslint-config-angular";
 
 export default [
+  {
+    ignores: [
+      "*.config.ts",
+      "setup-jest.ts",
+      ".storybook/",
+      "src/stories/",
+    ],
+  },
   ...eslintConfigAngular,
   {
     files: ["**/*.ts"],

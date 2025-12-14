@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { logEnd, logError, logStart } from "./log";
+import { logEnd, logError, logStart, logWarn } from "./log";
 
 jest.mock("chalk", () => ({
   __esModule: true,
@@ -40,5 +40,16 @@ describe("logError", () => {
 
     expect(chalk.red).toHaveBeenCalledWith("Test message 2");
     expect(console.log).toHaveBeenCalledWith("red");
+  });
+});
+
+describe("logWarn", () => {
+  it("should log warning message", () => {
+    console.log = jest.fn();
+
+    logWarn("Test warning");
+
+    expect(chalk.yellow).toHaveBeenCalledWith("Test warning");
+    expect(console.log).toHaveBeenCalledWith("yellow");
   });
 });

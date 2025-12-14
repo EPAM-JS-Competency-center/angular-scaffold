@@ -6,6 +6,7 @@ import {
   gitignore,
   logEnd,
   logStart,
+  logWarn,
 } from "./helpers";
 import { addPrettier } from "./prettier";
 import { addStylelint } from "./stylelint";
@@ -33,6 +34,7 @@ jest.mock("./helpers/index.js", () => ({
   execOrFail: jest.fn(),
   logEnd: jest.fn(),
   logStart: jest.fn(),
+  logWarn: jest.fn(),
   commit: jest.fn(),
   gitignore: jest.fn(),
 }));
@@ -120,6 +122,9 @@ describe("index.js", () => {
     });
     expect(commit).toHaveBeenCalledWith("Format files with Prettier");
 
+    expect(logWarn).toHaveBeenCalledWith(
+      "Note: src/stories/ is excluded from ESLint. Update or move stories as needed.",
+    );
     expect(logEnd).toHaveBeenCalledWith("Ready to work!");
   });
 });

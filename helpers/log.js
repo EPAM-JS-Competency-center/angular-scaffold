@@ -23,3 +23,11 @@ export function logEnd(msg) {
 export function logError(msg) {
   console.log(chalk.red(msg));
 }
+
+/**
+ *
+ * @param {string} msg Message to print
+ */
+export function logWarn(msg) {
+  console.log(chalk.yellow(msg));
+}

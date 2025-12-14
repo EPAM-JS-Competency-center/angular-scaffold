@@ -10,6 +10,7 @@ import {
   logEnd,
   logError,
   logStart,
+  logWarn,
 } from "./helpers/index.js";
 import { addPrettier } from "./prettier/index.js";
 import { addStylelint } from "./stylelint/index.js";
@@ -89,5 +90,8 @@ import { addStorybook } from "./storybook/index.js";
   });
   commit("Format files with Prettier");
 
+  logWarn(
+    "Note: src/stories/ is excluded from ESLint. Update or move stories as needed.",
+  );
   logEnd("Ready to work!");
 })();
