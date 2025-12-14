@@ -1,27 +1,42 @@
 import { writeFileSync } from "fs";
-import shelljs from "shelljs";
-import { logEnd, logError, logStart } from "../helpers/index.js";
+import { execOrFail } from "../helpers/index.js";
 
-export function addStylelint() {
-  logStart("Installing stylelint");
+/**
+ * @param {Object} options
+ * @param {string} options.style - The style format (scss, css, less, sass)
+ */
+export function addStylelint({ style = "scss" } = {}) {
+  const isSassStyle = style === "scss" || style === "sass";
 
-  // Install stylelint and stylelint config to exclude rules controlled by Prettier
-  // Install default SASS rules
-  if (
-    shelljs.exec("npm i -D stylelint@16 stylelint-config-sass-guidelines@12")
-      .code !== 0
-  ) {
-    logError("Could not install stylelint");
-    return shelljs.exit(1);
-  }
+  if (isSassStyle) {
+    execOrFail({
+      cmd: "npm i -D stylelint@16 stylelint-config-sass-guidelines@12",
+      startMsg: "Installing Stylelint with SASS guidelines",
+      errorMsg: "Could not install Stylelint",
+      endMsg: "Stylelint installed",
+    });
 
-  writeFileSync(
-    "./stylelint.config.js",
-    `module.exports = {
+    writeFileSync(
+      "./stylelint.config.js",
+      `module.exports = {
   extends: ["stylelint-config-sass-guidelines"],
 }`,
-    "utf8",
-  );
+      "utf8",
+    );
+  } else {
+    execOrFail({
+      cmd: "npm i -D stylelint@16 stylelint-config-standard@38",
+      startMsg: "Installing Stylelint with standard config",
+      errorMsg: "Could not install Stylelint",
+      endMsg: "Stylelint installed",
+    });
 
-  logEnd("stylelint installed");
+    writeFileSync(
+      "./stylelint.config.js",
+      `module.exports = {
+  extends: ["stylelint-config-standard"],
+}`,
+      "utf8",
+    );
+  }
 }

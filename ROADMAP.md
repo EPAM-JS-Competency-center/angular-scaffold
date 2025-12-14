@@ -2,13 +2,13 @@
 
 ## Features in plan
 
-- Add user-friendly CLI (show available flags/options and their descriptions)
-- Allow overriding SCSS style (requires adjusting stylelint to skip SCSS rules for non-SCSS styles)
-
 ## Features in progress
 
 ## Features added
 
+- Add user-friendly CLI with commander (--help, --version, --style options)
+- Allow overriding SCSS style (--style flag: scss, css, less, sass)
+- Improve CLI output with ora spinners
 - Add Storybook
 - Run prettier after scaffolding
 - Improve lefthook configuration

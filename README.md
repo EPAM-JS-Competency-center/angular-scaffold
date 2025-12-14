@@ -19,6 +19,16 @@ Node.js ^20.19.0 || ^22.12.0 || ^24.0.0 (aligned with Angular 21 requirements)
 npx scaffold-angular my-app
 ```
 
+### Options
+
+```bash
+npx scaffold-angular --help           # Show all available options
+npx scaffold-angular --version        # Show version number
+npx scaffold-angular my-app --style css  # Use CSS instead of SCSS
+```
+
+Available style options: `scss` (default), `css`, `less`, `sass`
+
 ## Tooling provided by the package
 
 Currently, the script only supports scaffolding new Angular projects with all tooling listed below enabled and

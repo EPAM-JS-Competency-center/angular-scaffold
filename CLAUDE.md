@@ -31,12 +31,13 @@ lefthook/             # Git hooks (Lefthook) installation and config template
 
 ## How It Works
 
-When run via `npx scaffold-angular <app-name>`:
+When run via `npx scaffold-angular <app-name> [--style <style>]`:
 
-1. Validates app name parameter is provided
-2. Ensures Angular CLI v21 is available (prompts to update if needed)
-3. Creates new Angular app with SCSS styling and `--minimal` flag
-4. Sequentially installs tooling, each as a separate git commit:
+1. Parses CLI arguments with commander (supports --help, --version, --style)
+2. Validates style option (scss, css, less, sass - defaults to scss)
+3. Ensures Angular CLI v21 is available (prompts to update if needed)
+4. Creates new Angular app with chosen styling and `--minimal` flag
+5. Sequentially installs tooling, each as a separate git commit:
 
 **Note on `--minimal` flag:** This flag is used solely to prevent Angular CLI from installing its default test
 framework (Vitest as of Angular 21). We install Jest instead. If `--minimal` starts affecting other desired scaffolding
@@ -44,7 +45,7 @@ behavior, reconsider the approach (e.g., use explicit `--test-runner` flag or po
 
 - ESLint (with `@epam/eslint-config-angular`)
 - Prettier
-- Stylelint (with sass-guidelines)
+- Stylelint (with sass-guidelines or standard config based on --style)
 - SVGO
 - Jest (with `jest-preset-angular`)
 - Storybook (component documentation and development)
@@ -52,6 +53,8 @@ behavior, reconsider the approach (e.g., use explicit `--test-runner` flag or po
 
 ## Key Dependencies
 
+- `commander` - CLI argument parsing
+- `ora` - Terminal spinners for progress indication
 - `chalk` - Colored console output
 - `shelljs` - Cross-platform shell commands
 
@@ -59,16 +62,17 @@ behavior, reconsider the approach (e.g., use explicit `--test-runner` flag or po
 
 Tests use Jest with Babel for ESM support. Each module has a corresponding `.spec.js` file:
 
-- `index.spec.js` - Main CLI flow
 - `helpers/*.spec.js` - Utility function tests
 - `eslint/index.spec.js`, `prettier/index.spec.js`, `jest/index.spec.js`, etc. - Module tests
+
+Note: The main `index.js` is tested via e2e rather than unit tests due to ESM/commander integration complexity.
 
 ## Code Conventions
 
 - **Config templates:** Each tool module has a `config.js` that exports the configuration template as a string
-- **Execution pattern:** Use `execOrFail()` helper for shell commands with consistent logging
+- **Execution pattern:** Use `execOrFail()` helper for shell commands with spinner progress
 - **Git commits:** Each tool installation creates a separate commit (e.g., "Add ESLint", "Add Prettier")
-- **Logging:** Use `logStart()`, `logEnd()`, `logError()` from `helpers/log.js`
+- **Spinners:** Use `startSpinner()`, `succeedSpinner()`, `failSpinner()` from `helpers/spinner.js`
 - **File writes:** Use `fs.writeFileSync` with UTF-8 encoding for config files
 
 ## What Gets Scaffolded
@@ -77,7 +81,7 @@ Generated projects include:
 
 - `eslint.config.mjs` - Flat ESLint config with Angular rules
 - `prettier.config.js` - Prettier config (empty, uses defaults)
-- `stylelint.config.js` - Stylelint with sass-guidelines
+- `stylelint.config.js` - Stylelint with sass-guidelines or standard config (based on --style)
 - `jest.config.ts` - Jest config using `jest-preset-angular`
 - `setup-jest.ts` - Jest setup file for Angular zoneless environment
 - `tsconfig.spec.json` - TypeScript config for Jest tests

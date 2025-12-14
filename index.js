@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { program } from "commander";
 import shelljs from "shelljs";
 import {
   ANGULAR_CLI_MAJOR_VERSION,
@@ -7,10 +8,9 @@ import {
   ensureAngularCliVersion,
   execOrFail,
   gitignore,
-  logEnd,
-  logError,
-  logStart,
   logWarn,
+  startSpinner,
+  succeedSpinner,
 } from "./helpers/index.js";
 import { addPrettier } from "./prettier/index.js";
 import { addStylelint } from "./stylelint/index.js";
@@ -19,79 +19,99 @@ import { addEslint } from "./eslint/index.js";
 import { addLefthook } from "./lefthook/index.js";
 import { addJest } from "./jest/index.js";
 import { addStorybook } from "./storybook/index.js";
+import { createRequire } from "module";
 
-(async () => {
-  const appName = process.argv[2];
+const require = createRequire(import.meta.url);
+const packageJson = require("./package.json");
 
-  if (!appName) {
-    logError("Please provide an application name");
-    logError("Usage: npx scaffold-angular <app-name>");
-    process.exit(1);
-  }
+const VALID_STYLES = ["scss", "css", "less", "sass"];
 
-  await ensureAngularCliVersion();
+program
+  .name("scaffold-angular")
+  .description(
+    "Scaffold a new Angular application with ESLint, Prettier, Stylelint, Jest, Storybook, and Lefthook pre-configured",
+  )
+  .version(packageJson.version)
+  .argument("<app-name>", "Name of the Angular application to create")
+  .option(
+    "-s, --style <style>",
+    `Style preprocessor to use (${VALID_STYLES.join(", ")})`,
+    "scss",
+  )
+  .action(async (appName, options) => {
+    const style = options.style.toLowerCase();
 
-  logStart("Scaffolding Angular application...");
-  execFileSync(
-    "npx",
-    [
-      `@angular/cli@${ANGULAR_CLI_MAJOR_VERSION}`,
-      "new",
-      appName,
-      "--style",
-      "scss",
-      "--minimal",
-    ],
-    { stdio: "inherit" },
-  );
-  logEnd("Angular application scaffolded");
+    if (!VALID_STYLES.includes(style)) {
+      console.error(
+        `Error: Invalid style "${style}". Valid options are: ${VALID_STYLES.join(", ")}`,
+      );
+      process.exit(1);
+    }
 
-  shelljs.cd(appName);
+    await ensureAngularCliVersion();
 
-  addEslint();
-  commit("Add ESLint");
+    startSpinner("Scaffolding Angular application...");
+    execFileSync(
+      "npx",
+      [
+        `@angular/cli@${ANGULAR_CLI_MAJOR_VERSION}`,
+        "new",
+        appName,
+        "--style",
+        style,
+        "--minimal",
+      ],
+      { stdio: "inherit" },
+    );
+    succeedSpinner("Angular application scaffolded");
 
-  gitignore(`# lint caches
+    shelljs.cd(appName);
+
+    addEslint();
+    commit("Add ESLint");
+
+    gitignore(`# lint caches
 .eslintcache`);
-  commit("Add .eslintcache to .gitignore");
+    commit("Add .eslintcache to .gitignore");
 
-  addPrettier();
-  commit("Add Prettier");
+    addPrettier();
+    commit("Add Prettier");
 
-  addStylelint();
-  commit("Add Stylelint");
+    addStylelint({ style });
+    commit("Add Stylelint");
 
-  gitignore(`.stylelintcache`);
-  commit("Add .stylelintcache to .gitignore");
+    gitignore(`.stylelintcache`);
+    commit("Add .stylelintcache to .gitignore");
 
-  // Add svgo
-  execOrFail({
-    cmd: "npm i -D svgo@4",
-    startMsg: "Installing svgo",
-    errorMsg: "Error during svgo installation",
-    endMsg: "svgo installed",
+    execOrFail({
+      cmd: "npm i -D svgo@4",
+      startMsg: "Installing SVGO",
+      errorMsg: "Error during SVGO installation",
+      endMsg: "SVGO installed",
+    });
+    commit("Add SVGo");
+
+    addJest();
+    commit("Add Jest");
+
+    addStorybook();
+    commit("Add Storybook");
+
+    addLefthook();
+    commit("Add Lefthook");
+
+    execOrFail({
+      cmd: "npx prettier --write .",
+      startMsg: "Formatting files with Prettier",
+      errorMsg: "Error during Prettier formatting",
+      endMsg: "Files formatted",
+    });
+    commit("Format files with Prettier");
+
+    logWarn(
+      "Note: src/stories/ is excluded from ESLint. Update or move stories as needed.",
+    );
+    console.log("\n✨ Ready to work!\n");
   });
-  commit("Add SVGo");
 
-  addJest();
-  commit("Add Jest");
-
-  addStorybook();
-  commit("Add Storybook");
-
-  addLefthook();
-  commit("Add Lefthook");
-
-  execOrFail({
-    cmd: "npx prettier --write .",
-    startMsg: "Formatting files with Prettier",
-    errorMsg: "Error during Prettier formatting",
-    endMsg: "Files formatted",
-  });
-  commit("Format files with Prettier");
-
-  logWarn(
-    "Note: src/stories/ is excluded from ESLint. Update or move stories as needed.",
-  );
-  logEnd("Ready to work!");
-})();
+program.parse();

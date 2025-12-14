@@ -1,6 +1,12 @@
 import { execFileSync } from "child_process";
 import { createInterface } from "readline";
-import { logEnd, logError, logStart } from "./log.js";
+import chalk from "chalk";
+import {
+  failSpinner,
+  startSpinner,
+  stopSpinner,
+  succeedSpinner,
+} from "./spinner.js";
 
 export const ANGULAR_CLI_MAJOR_VERSION = "21";
 
@@ -47,7 +53,7 @@ export function askUser(question) {
  * @returns {Promise<void>}
  */
 export async function ensureAngularCliVersion() {
-  logStart("Checking Angular CLI version...");
+  startSpinner("Checking Angular CLI version...");
 
   let versionOutput;
   try {
@@ -57,25 +63,28 @@ export async function ensureAngularCliVersion() {
     });
   } catch {
     // ng not installed globally, which is fine - npx will handle it
-    logEnd("No global Angular CLI found, will use npx");
+    succeedSpinner("No global Angular CLI found, will use npx");
     return;
   }
 
   const currentVersion = parseAngularCliVersion(versionOutput);
   if (!currentVersion) {
-    logEnd("Could not determine Angular CLI version, proceeding with npx");
+    succeedSpinner(
+      "Could not determine Angular CLI version, proceeding with npx",
+    );
     return;
   }
 
   const currentMajor = getMajorVersion(currentVersion);
   if (currentMajor === ANGULAR_CLI_MAJOR_VERSION) {
-    logEnd(`Angular CLI version ${currentVersion} is compatible`);
+    succeedSpinner(`Angular CLI v${currentVersion} is compatible`);
     return;
   }
 
-  // Version mismatch detected
+  // Version mismatch detected - stop spinner for interactive prompt
+  stopSpinner();
   console.log("");
-  logError(`Version mismatch detected!`);
+  console.log(chalk.red("Version mismatch detected!"));
   console.log(`  Current global Angular CLI: v${currentVersion}`);
   console.log(`  Required major version: v${ANGULAR_CLI_MAJOR_VERSION}.x.x`);
   console.log("");
@@ -85,21 +94,25 @@ export async function ensureAngularCliVersion() {
   );
 
   if (shouldUpdate) {
-    logStart(`Updating global Angular CLI to v${ANGULAR_CLI_MAJOR_VERSION}...`);
+    startSpinner(
+      `Updating global Angular CLI to v${ANGULAR_CLI_MAJOR_VERSION}...`,
+    );
     try {
       execFileSync(
         "npm",
         ["install", "-g", `@angular/cli@${ANGULAR_CLI_MAJOR_VERSION}`],
-        { stdio: "inherit" },
+        { stdio: "pipe" },
       );
-      logEnd("Global Angular CLI updated successfully");
+      succeedSpinner("Global Angular CLI updated successfully");
     } catch {
-      logError("Failed to update global Angular CLI");
+      failSpinner("Failed to update global Angular CLI");
       process.exit(1);
     }
   } else {
     console.log("");
-    logError("Cannot proceed with a different Angular CLI version.");
+    console.log(
+      chalk.red("Cannot proceed with a different Angular CLI version."),
+    );
     console.log("Running with a mismatched version is not guaranteed to work.");
     console.log("");
     console.log("Please choose one of the following options:");

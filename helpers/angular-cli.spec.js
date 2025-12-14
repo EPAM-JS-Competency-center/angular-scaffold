@@ -7,7 +7,12 @@ import {
   getMajorVersion,
   parseAngularCliVersion,
 } from "./angular-cli";
-import { logEnd, logError, logStart } from "./log";
+import {
+  failSpinner,
+  startSpinner,
+  stopSpinner,
+  succeedSpinner,
+} from "./spinner";
 
 jest.mock("child_process", () => ({
   __esModule: true,
@@ -19,11 +24,12 @@ jest.mock("readline", () => ({
   createInterface: jest.fn(),
 }));
 
-jest.mock("./log", () => ({
+jest.mock("./spinner", () => ({
   __esModule: true,
-  logStart: jest.fn(),
-  logError: jest.fn(),
-  logEnd: jest.fn(),
+  startSpinner: jest.fn(),
+  succeedSpinner: jest.fn(),
+  failSpinner: jest.fn(),
+  stopSpinner: jest.fn(),
 }));
 
 describe("ANGULAR_CLI_MAJOR_VERSION", () => {
@@ -170,8 +176,10 @@ describe("ensureAngularCliVersion", () => {
 
     await ensureAngularCliVersion();
 
-    expect(logStart).toHaveBeenCalledWith("Checking Angular CLI version...");
-    expect(logEnd).toHaveBeenCalledWith(
+    expect(startSpinner).toHaveBeenCalledWith(
+      "Checking Angular CLI version...",
+    );
+    expect(succeedSpinner).toHaveBeenCalledWith(
       "No global Angular CLI found, will use npx",
     );
   });
@@ -181,8 +189,10 @@ describe("ensureAngularCliVersion", () => {
 
     await ensureAngularCliVersion();
 
-    expect(logStart).toHaveBeenCalledWith("Checking Angular CLI version...");
-    expect(logEnd).toHaveBeenCalledWith(
+    expect(startSpinner).toHaveBeenCalledWith(
+      "Checking Angular CLI version...",
+    );
+    expect(succeedSpinner).toHaveBeenCalledWith(
       "Could not determine Angular CLI version, proceeding with npx",
     );
   });
@@ -192,9 +202,11 @@ describe("ensureAngularCliVersion", () => {
 
     await ensureAngularCliVersion();
 
-    expect(logStart).toHaveBeenCalledWith("Checking Angular CLI version...");
-    expect(logEnd).toHaveBeenCalledWith(
-      "Angular CLI version 21.0.1 is compatible",
+    expect(startSpinner).toHaveBeenCalledWith(
+      "Checking Angular CLI version...",
+    );
+    expect(succeedSpinner).toHaveBeenCalledWith(
+      "Angular CLI v21.0.1 is compatible",
     );
   });
 
@@ -211,23 +223,19 @@ describe("ensureAngularCliVersion", () => {
 
     await ensureAngularCliVersion();
 
-    expect(logStart).toHaveBeenCalledWith("Checking Angular CLI version...");
-    expect(logError).toHaveBeenCalledWith("Version mismatch detected!");
-    expect(mockConsoleLog).toHaveBeenCalledWith(
-      "  Current global Angular CLI: v17.2.3",
+    expect(startSpinner).toHaveBeenCalledWith(
+      "Checking Angular CLI version...",
     );
-    expect(mockConsoleLog).toHaveBeenCalledWith(
-      "  Required major version: v21.x.x",
-    );
-    expect(logStart).toHaveBeenCalledWith(
+    expect(stopSpinner).toHaveBeenCalled();
+    expect(startSpinner).toHaveBeenCalledWith(
       "Updating global Angular CLI to v21...",
     );
     expect(execFileSync).toHaveBeenCalledWith(
       "npm",
       ["install", "-g", "@angular/cli@21"],
-      { stdio: "inherit" },
+      { stdio: "pipe" },
     );
-    expect(logEnd).toHaveBeenCalledWith(
+    expect(succeedSpinner).toHaveBeenCalledWith(
       "Global Angular CLI updated successfully",
     );
   });
@@ -247,7 +255,7 @@ describe("ensureAngularCliVersion", () => {
 
     await ensureAngularCliVersion();
 
-    expect(logError).toHaveBeenCalledWith(
+    expect(failSpinner).toHaveBeenCalledWith(
       "Failed to update global Angular CLI",
     );
     expect(mockExit).toHaveBeenCalledWith(1);
@@ -264,19 +272,7 @@ describe("ensureAngularCliVersion", () => {
 
     await ensureAngularCliVersion();
 
-    expect(logError).toHaveBeenCalledWith("Version mismatch detected!");
-    expect(logError).toHaveBeenCalledWith(
-      "Cannot proceed with a different Angular CLI version.",
-    );
-    expect(mockConsoleLog).toHaveBeenCalledWith(
-      "Running with a mismatched version is not guaranteed to work.",
-    );
-    expect(mockConsoleLog).toHaveBeenCalledWith(
-      "  1. Update global CLI:  npm install -g @angular/cli@21",
-    );
-    expect(mockConsoleLog).toHaveBeenCalledWith(
-      "  2. Remove global CLI:  npm uninstall -g @angular/cli",
-    );
+    expect(stopSpinner).toHaveBeenCalled();
     expect(mockExit).toHaveBeenCalledWith(1);
   });
 
@@ -285,8 +281,8 @@ describe("ensureAngularCliVersion", () => {
 
     await ensureAngularCliVersion();
 
-    expect(logEnd).toHaveBeenCalledWith(
-      "Angular CLI version 21.5.10 is compatible",
+    expect(succeedSpinner).toHaveBeenCalledWith(
+      "Angular CLI v21.5.10 is compatible",
     );
   });
 });

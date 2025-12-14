@@ -1,23 +1,10 @@
 import { writeFileSync } from "fs";
-import shelljs from "shelljs";
 import { addPrettier } from ".";
-import { logEnd, logError, logStart } from "../helpers/index.js";
+import { execOrFail } from "../helpers/index.js";
 
 jest.mock("../helpers/index.js", () => ({
   __esModule: true,
-  logStart: jest.fn(),
-  logEnd: jest.fn(),
-  logError: jest.fn(),
-}));
-
-jest.mock("shelljs", () => ({
-  __esModule: true,
-  default: {
-    exec: jest.fn().mockReturnValue({
-      code: 0,
-    }),
-    exit: jest.fn(),
-  },
+  execOrFail: jest.fn(),
 }));
 
 jest.mock("fs", () => ({
@@ -25,14 +12,15 @@ jest.mock("fs", () => ({
 }));
 
 describe("addPrettier", () => {
-  it("should install prettier", () => {
+  it("should install prettier and create config", () => {
     addPrettier();
 
-    expect(logStart).toHaveBeenCalledWith("Installing prettier");
-
-    expect(shelljs.exec).toHaveBeenCalledWith(
-      "npm i -D prettier@3 eslint-config-prettier@10",
-    );
+    expect(execOrFail).toHaveBeenCalledWith({
+      cmd: "npm i -D prettier@3 eslint-config-prettier@10",
+      startMsg: "Installing Prettier",
+      errorMsg: "Could not install Prettier",
+      endMsg: "Prettier installed",
+    });
 
     expect(writeFileSync).toHaveBeenCalledWith(
       "./prettier.config.js",
@@ -40,17 +28,5 @@ describe("addPrettier", () => {
 module.exports = {}`,
       "utf8",
     );
-
-    expect(logEnd).toHaveBeenCalledWith("prettier installed");
-  });
-
-  it("log error and exit process", () => {
-    shelljs.exec.mockReturnValue({ code: 1 });
-
-    addPrettier();
-
-    expect(logError).toHaveBeenCalledWith("Could not install prettier");
-
-    expect(shelljs.exit).toHaveBeenCalledWith(1);
   });
 });

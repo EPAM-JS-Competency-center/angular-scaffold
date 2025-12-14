@@ -1,12 +1,12 @@
 import shelljs from "shelljs";
 import { execOrFail } from "./exec";
-import { logEnd, logError, logStart } from "./log";
+import { failSpinner, startSpinner, succeedSpinner } from "./spinner";
 
-jest.mock("./log", () => ({
+jest.mock("./spinner", () => ({
   __esModule: true,
-  logStart: jest.fn(),
-  logError: jest.fn(),
-  logEnd: jest.fn(),
+  startSpinner: jest.fn(),
+  succeedSpinner: jest.fn(),
+  failSpinner: jest.fn(),
 }));
 
 jest.mock("shelljs", () => ({
@@ -14,29 +14,18 @@ jest.mock("shelljs", () => ({
   default: {
     exec: jest.fn(() => ({
       code: 0,
+      stderr: "",
     })),
     exit: jest.fn(),
   },
 }));
 
 describe("execOrFail", () => {
-  it("log start, execute the command and log end", () => {
-    execOrFail({
-      cmd: "cmd",
-      startMsg: "startMsg",
-      endMsg: "endMsg",
-      errorMsg: "errorMsg",
-    });
-
-    expect(logStart).toHaveBeenCalledWith("startMsg");
-    expect(shelljs.exec).toHaveBeenCalledWith("cmd");
-    expect(shelljs.exit).not.toHaveBeenCalledWith(1);
-    expect(logEnd).toHaveBeenCalledWith("endMsg");
-    expect(logError).not.toHaveBeenCalled();
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it("log start, execute the command, log error and exit with code 1", () => {
-    shelljs.exec.mockImplementation(() => ({ code: 1 }));
+  it("should start spinner, execute command silently, and succeed", () => {
     execOrFail({
       cmd: "cmd",
       startMsg: "startMsg",
@@ -44,10 +33,30 @@ describe("execOrFail", () => {
       errorMsg: "errorMsg",
     });
 
-    expect(logStart).toHaveBeenCalledWith("startMsg");
-    expect(shelljs.exec).toHaveBeenCalledWith("cmd");
+    expect(startSpinner).toHaveBeenCalledWith("startMsg");
+    expect(shelljs.exec).toHaveBeenCalledWith("cmd", { silent: true });
+    expect(shelljs.exit).not.toHaveBeenCalledWith(1);
+    expect(succeedSpinner).toHaveBeenCalledWith("endMsg");
+    expect(failSpinner).not.toHaveBeenCalled();
+  });
+
+  it("should start spinner, execute command, fail and exit with code 1", () => {
+    shelljs.exec.mockImplementation(() => ({
+      code: 1,
+      stderr: "error output",
+    }));
+
+    execOrFail({
+      cmd: "cmd",
+      startMsg: "startMsg",
+      endMsg: "endMsg",
+      errorMsg: "errorMsg",
+    });
+
+    expect(startSpinner).toHaveBeenCalledWith("startMsg");
+    expect(shelljs.exec).toHaveBeenCalledWith("cmd", { silent: true });
     expect(shelljs.exit).toHaveBeenCalledWith(1);
-    expect(logEnd).not.toHaveBeenCalledWith("endMsg");
-    expect(logError).toHaveBeenCalled();
+    expect(succeedSpinner).not.toHaveBeenCalled();
+    expect(failSpinner).toHaveBeenCalledWith("errorMsg");
   });
 });
