@@ -25,6 +25,7 @@ eslint/               # ESLint installation and config template
 prettier/             # Prettier installation
 stylelint/            # Stylelint installation
 jest/                 # Jest (jest-preset-angular) installation and config templates
+storybook/            # Storybook installation
 lefthook/             # Git hooks (Lefthook) installation and config template
 ```
 
@@ -46,6 +47,7 @@ behavior, reconsider the approach (e.g., use explicit `--test-runner` flag or po
 - Stylelint (with sass-guidelines)
 - SVGO
 - Jest (with `jest-preset-angular`)
+- Storybook (component documentation and development)
 - Lefthook (git hooks for pre-commit, pre-push, commit-msg)
 
 ## Key Dependencies
@@ -77,8 +79,10 @@ Generated projects include:
 - `prettier.config.js` - Prettier config (empty, uses defaults)
 - `stylelint.config.js` - Stylelint with sass-guidelines
 - `jest.config.ts` - Jest config using `jest-preset-angular`
-- `setup-jest.ts` - Jest setup file for Angular zone environment
+- `setup-jest.ts` - Jest setup file for Angular zoneless environment
 - `tsconfig.spec.json` - TypeScript config for Jest tests
+- `src/app/app.spec.ts` - Example test for the default App component
+- `src/stories/` - Storybook stories directory
 - `lefthook.yml` - Git hooks config (pre-commit: lint/format, pre-push: test, commit-msg: validate)
 - `.gitignore` additions for cache files
 

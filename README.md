@@ -29,4 +29,6 @@ configured
 2. Stylelint – runs linting rules over scss files
 3. Prettier - formats all files
 4. SVGO - minifies svg images (if run twice in a row could produce two different code results which look identically)
-5. Lefthook - git hooks management tool
+5. Jest - testing framework with jest-preset-angular
+6. Storybook - component documentation and development
+7. Lefthook - git hooks management tool
