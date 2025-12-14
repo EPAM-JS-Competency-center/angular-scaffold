@@ -1,20 +1,28 @@
 export const lefthookConfig = String.raw`pre-commit:
   parallel: true
-  commands:
-    html_ts:
+  jobs:
+    - name: html_ts
       glob: '*.{html,ts}'
-      run: npx eslint --fix {staged_files} && npx prettier --write {staged_files}
       stage_fixed: true
-    scss:
+      group:
+        piped: true
+        jobs:
+          - run: npx eslint --fix {staged_files}
+          - run: npx prettier --write {staged_files}
+    - name: scss
       glob: '*.scss'
-      run: npx stylelint --fix {staged_files} && npx prettier --write {staged_files}
       stage_fixed: true
-    rest:
+      group:
+        piped: true
+        jobs:
+          - run: npx stylelint --fix {staged_files}
+          - run: npx prettier --write {staged_files}
+    - name: rest
       exclude: '*.{html,ts,scss}'
-      run: npx prettier --write --ignore-unknown {staged_files}
       stage_fixed: true
+      run: npx prettier --write --ignore-unknown {staged_files}
 
 pre-push:
-  commands:
-    test:
+  jobs:
+    - name: test
       run: npm test`;
