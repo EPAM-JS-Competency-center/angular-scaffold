@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.14](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.13...v0.0.14) (2025-12-14)
+
+### Features
+
+- add Storybook ([0f24b75](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/0f24b750d99e6d68f6ff8d0a62dbb3b07582022a))
+- run prettier after scaffolding ([e36b0b9](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/e36b0b970b4cb63c95755c268d378b5000933ff0))
+
+### Bug Fixes
+
+- exclude stories and config files from ESLint ([ec6c085](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/ec6c08547deba04377a35c8b3d1a939a58530d69))
+- sequential hooks fail for some windows users ([89daeb3](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/89daeb32a26f81e734f50544d4c238a15f0489a6))
+
 ### [0.0.13](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.12...v0.0.13) (2025-12-13)
 
 ### Features
