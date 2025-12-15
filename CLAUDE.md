@@ -28,20 +28,27 @@ E2E can be skipped ONLY for:
 
 ### E2E Test Procedure
 
+Run each command separately (not chained with `&&`) to ensure permissions auto-approve correctly:
+
 ```bash
 # 1. Scaffold a test project in sibling directory
-cd ../angular-scaffold-playground && npx ../angular-scaffold my-app
+cd ../angular-scaffold-playground
+npx ../angular-scaffold my-app
 
 # 2. Verify the scaffolded project works
-cd my-app && npm test && npm run lint
+cd my-app
+npm test
+npm run lint
 
 # 3. Clean up (return to repo root first)
-cd ../../angular-scaffold && rm -rf ../angular-scaffold-playground/my-app
+cd ../../angular-scaffold
+rm -rf ../angular-scaffold-playground/my-app
 ```
 
 **Note:** E2E tests must run in a sibling directory (not inside this repo) because Angular CLI skips git init when it
 detects a parent `.git/`. The sibling `angular-scaffold-playground/` directory is already configured in
-`additionalDirectories`.
+`additionalDirectories`. Commands must be run separately because permission patterns like `Bash(rm:*)` only match
+commands that start with that prefix.
 
 ### Reporting Completion
 
@@ -201,10 +208,12 @@ Follow Conventional Commits: `type(scope): description`
    deleting:
 
    ```bash
-   # WRONG - shell left in deleted directory
-   cd ../angular-scaffold-playground/my-app && npm test
-   rm -rf ../angular-scaffold-playground/my-app  # subsequent commands fail
+   # WRONG - shell left in deleted directory, subsequent commands fail
+   cd ../angular-scaffold-playground/my-app
+   npm test
+   rm -rf ../angular-scaffold-playground/my-app
 
    # CORRECT - return to repo root first
-   cd ../../angular-scaffold && rm -rf ../angular-scaffold-playground/my-app
+   cd ../../angular-scaffold
+   rm -rf ../angular-scaffold-playground/my-app
    ```
