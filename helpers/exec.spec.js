@@ -20,6 +20,10 @@ const mockProcessExit = jest
   .spyOn(process, "exit")
   .mockImplementation(() => {});
 
+const mockConsoleError = jest
+  .spyOn(console, "error")
+  .mockImplementation(() => {});
+
 describe("execOrFail", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -58,5 +62,6 @@ describe("execOrFail", () => {
     expect(mockProcessExit).toHaveBeenCalledWith(1);
     expect(succeedSpinner).not.toHaveBeenCalled();
     expect(failSpinner).toHaveBeenCalledWith("errorMsg");
+    expect(mockConsoleError).toHaveBeenCalledWith("error output");
   });
 });
