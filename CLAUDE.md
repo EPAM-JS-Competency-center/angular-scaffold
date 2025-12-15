@@ -29,21 +29,19 @@ E2E can be skipped ONLY for:
 ### E2E Test Procedure
 
 ```bash
-# 1. Create playground directory if it doesn't exist
-mkdir -p playground
+# 1. Scaffold a test project in sibling directory
+cd ../angular-scaffold-playground && npx ../angular-scaffold my-app
 
-# 2. Scaffold a test project (from repo root)
-cd playground && npx .. my-app
-
-# 3. Verify the scaffolded project works
+# 2. Verify the scaffolded project works
 cd my-app && npm test && npm run lint
 
-# 4. Clean up (return to repo root first)
-cd ../.. && rm -rf playground/my-app
+# 3. Clean up (return to repo root first)
+cd ../../angular-scaffold && rm -rf ../angular-scaffold-playground/my-app
 ```
 
-**Note:** The `playground/` directory is gitignored. Scaffolded apps have their own `.git/`, so commits won't affect
-this repo.
+**Note:** E2E tests must run in a sibling directory (not inside this repo) because Angular CLI skips git init when it
+detects a parent `.git/`. The sibling `angular-scaffold-playground/` directory is already configured in
+`additionalDirectories`.
 
 ### Reporting Completion
 
@@ -204,9 +202,9 @@ Follow Conventional Commits: `type(scope): description`
 
    ```bash
    # WRONG - shell left in deleted directory
-   cd playground/my-app && npm test
-   rm -rf playground/my-app  # subsequent commands fail
+   cd ../angular-scaffold-playground/my-app && npm test
+   rm -rf ../angular-scaffold-playground/my-app  # subsequent commands fail
 
    # CORRECT - return to repo root first
-   cd ../.. && rm -rf playground/my-app
+   cd ../../angular-scaffold && rm -rf ../angular-scaffold-playground/my-app
    ```

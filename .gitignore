@@ -3,7 +3,6 @@ node_modules
 
 # Testing
 coverage
-playground/
 
 # IDE
 .idea
