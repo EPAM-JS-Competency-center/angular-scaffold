@@ -7,8 +7,8 @@ jest.mock("../helpers/index.js", () => ({
 }));
 
 describe("addStorybook", () => {
-  it("should install Storybook", () => {
-    addStorybook();
+  it("should install Storybook", async () => {
+    await addStorybook();
 
     expect(execOrFail).toHaveBeenCalledWith({
       cmd: "npx storybook@latest init --yes --no-dev",

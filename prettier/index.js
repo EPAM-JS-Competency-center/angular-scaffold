@@ -1,8 +1,8 @@
 import { writeFileSync } from "fs";
 import { execOrFail } from "../helpers/index.js";
 
-export function addPrettier() {
-  execOrFail({
+export async function addPrettier() {
+  await execOrFail({
     cmd: "npm i -D prettier@3 eslint-config-prettier@10",
     startMsg: "Installing Prettier",
     errorMsg: "Could not install Prettier",

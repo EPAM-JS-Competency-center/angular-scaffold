@@ -1,4 +1,4 @@
-import shelljs from "shelljs";
+import { exec } from "child_process";
 import { execOrFail } from "./exec";
 import { failSpinner, startSpinner, succeedSpinner } from "./spinner";
 
@@ -9,24 +9,24 @@ jest.mock("./spinner", () => ({
   failSpinner: jest.fn(),
 }));
 
-jest.mock("shelljs", () => ({
+jest.mock("child_process", () => ({
   __esModule: true,
-  default: {
-    exec: jest.fn(() => ({
-      code: 0,
-      stderr: "",
-    })),
-    exit: jest.fn(),
-  },
+  exec: jest.fn((cmd, callback) => {
+    callback(null, "stdout", "");
+  }),
 }));
+
+const mockProcessExit = jest
+  .spyOn(process, "exit")
+  .mockImplementation(() => {});
 
 describe("execOrFail", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should start spinner, execute command silently, and succeed", () => {
-    execOrFail({
+  it("should start spinner, execute command, and succeed", async () => {
+    await execOrFail({
       cmd: "cmd",
       startMsg: "startMsg",
       endMsg: "endMsg",
@@ -34,19 +34,19 @@ describe("execOrFail", () => {
     });
 
     expect(startSpinner).toHaveBeenCalledWith("startMsg");
-    expect(shelljs.exec).toHaveBeenCalledWith("cmd", { silent: true });
-    expect(shelljs.exit).not.toHaveBeenCalledWith(1);
+    expect(exec).toHaveBeenCalledWith("cmd", expect.any(Function));
+    expect(mockProcessExit).not.toHaveBeenCalled();
     expect(succeedSpinner).toHaveBeenCalledWith("endMsg");
     expect(failSpinner).not.toHaveBeenCalled();
   });
 
-  it("should start spinner, execute command, fail and exit with code 1", () => {
-    shelljs.exec.mockImplementation(() => ({
-      code: 1,
-      stderr: "error output",
-    }));
+  it("should start spinner, execute command, fail and exit with code 1", async () => {
+    exec.mockImplementation((cmd, callback) => {
+      const error = new Error("command failed");
+      callback(error, "", "error output");
+    });
 
-    execOrFail({
+    await execOrFail({
       cmd: "cmd",
       startMsg: "startMsg",
       endMsg: "endMsg",
@@ -54,8 +54,8 @@ describe("execOrFail", () => {
     });
 
     expect(startSpinner).toHaveBeenCalledWith("startMsg");
-    expect(shelljs.exec).toHaveBeenCalledWith("cmd", { silent: true });
-    expect(shelljs.exit).toHaveBeenCalledWith(1);
+    expect(exec).toHaveBeenCalledWith("cmd", expect.any(Function));
+    expect(mockProcessExit).toHaveBeenCalledWith(1);
     expect(succeedSpinner).not.toHaveBeenCalled();
     expect(failSpinner).toHaveBeenCalledWith("errorMsg");
   });

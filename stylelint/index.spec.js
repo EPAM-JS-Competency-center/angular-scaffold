@@ -16,8 +16,8 @@ describe("addStylelint", () => {
     jest.clearAllMocks();
   });
 
-  it("should install stylelint with SASS guidelines by default", () => {
-    addStylelint();
+  it("should install stylelint with SASS guidelines by default", async () => {
+    await addStylelint();
 
     expect(execOrFail).toHaveBeenCalledWith({
       cmd: "npm i -D stylelint@16 stylelint-config-sass-guidelines@12",
@@ -35,8 +35,8 @@ describe("addStylelint", () => {
     );
   });
 
-  it("should install stylelint with SASS guidelines for scss style", () => {
-    addStylelint({ style: "scss" });
+  it("should install stylelint with SASS guidelines for scss style", async () => {
+    await addStylelint({ style: "scss" });
 
     expect(execOrFail).toHaveBeenCalledWith({
       cmd: "npm i -D stylelint@16 stylelint-config-sass-guidelines@12",
@@ -46,8 +46,8 @@ describe("addStylelint", () => {
     });
   });
 
-  it("should install stylelint with SASS guidelines for sass style", () => {
-    addStylelint({ style: "sass" });
+  it("should install stylelint with SASS guidelines for sass style", async () => {
+    await addStylelint({ style: "sass" });
 
     expect(execOrFail).toHaveBeenCalledWith({
       cmd: "npm i -D stylelint@16 stylelint-config-sass-guidelines@12",
@@ -57,8 +57,8 @@ describe("addStylelint", () => {
     });
   });
 
-  it("should install stylelint with standard config for css style", () => {
-    addStylelint({ style: "css" });
+  it("should install stylelint with standard config for css style", async () => {
+    await addStylelint({ style: "css" });
 
     expect(execOrFail).toHaveBeenCalledWith({
       cmd: "npm i -D stylelint@16 stylelint-config-standard@38",
@@ -76,8 +76,8 @@ describe("addStylelint", () => {
     );
   });
 
-  it("should install stylelint with standard config for less style", () => {
-    addStylelint({ style: "less" });
+  it("should install stylelint with standard config for less style", async () => {
+    await addStylelint({ style: "less" });
 
     expect(execOrFail).toHaveBeenCalledWith({
       cmd: "npm i -D stylelint@16 stylelint-config-standard@38",

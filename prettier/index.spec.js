@@ -12,8 +12,8 @@ jest.mock("fs", () => ({
 }));
 
 describe("addPrettier", () => {
-  it("should install prettier and create config", () => {
-    addPrettier();
+  it("should install prettier and create config", async () => {
+    await addPrettier();
 
     expect(execOrFail).toHaveBeenCalledWith({
       cmd: "npm i -D prettier@3 eslint-config-prettier@10",

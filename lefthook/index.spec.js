@@ -13,8 +13,8 @@ jest.mock("fs", () => ({
 }));
 
 describe("addLefthook", () => {
-  it("should write config and install lefthook", () => {
-    addLefthook();
+  it("should write config and install lefthook", async () => {
+    await addLefthook();
 
     expect(writeFileSync).toHaveBeenCalledWith("lefthook.yml", lefthookConfig);
     expect(execOrFail).toHaveBeenCalledWith({

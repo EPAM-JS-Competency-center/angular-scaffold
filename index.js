@@ -67,23 +67,23 @@ program
 
     shelljs.cd(appName);
 
-    addEslint();
+    await addEslint();
     commit("Add ESLint");
 
     gitignore(`# lint caches
 .eslintcache`);
     commit("Add .eslintcache to .gitignore");
 
-    addPrettier();
+    await addPrettier();
     commit("Add Prettier");
 
-    addStylelint({ style });
+    await addStylelint({ style });
     commit("Add Stylelint");
 
     gitignore(`.stylelintcache`);
     commit("Add .stylelintcache to .gitignore");
 
-    execOrFail({
+    await execOrFail({
       cmd: "npm i -D svgo@4",
       startMsg: "Installing SVGO",
       errorMsg: "Error during SVGO installation",
@@ -91,16 +91,16 @@ program
     });
     commit("Add SVGo");
 
-    addJest();
+    await addJest();
     commit("Add Jest");
 
-    addStorybook();
+    await addStorybook();
     commit("Add Storybook");
 
-    addLefthook();
+    await addLefthook();
     commit("Add Lefthook");
 
-    execOrFail({
+    await execOrFail({
       cmd: "npx prettier --write .",
       startMsg: "Formatting files with Prettier",
       errorMsg: "Error during Prettier formatting",

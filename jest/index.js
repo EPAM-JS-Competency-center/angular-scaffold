@@ -2,8 +2,8 @@ import { execOrFail } from "../helpers/index.js";
 import { readFileSync, writeFileSync } from "fs";
 import { appSpec, jestConfig, setupJest, tsconfigSpec } from "./config.js";
 
-export function addJest() {
-  execOrFail({
+export async function addJest() {
+  await execOrFail({
     cmd: "npm i -D jest@30 jest-preset-angular@16 @types/jest@30 jest-environment-jsdom@30 ts-node",
     startMsg: "Installing Jest and jest-preset-angular",
     errorMsg: "Error during Jest installation",

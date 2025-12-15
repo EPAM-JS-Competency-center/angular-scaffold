@@ -1,17 +1,27 @@
-import shelljs from "shelljs";
+import { exec } from "child_process";
 import { failSpinner, startSpinner, succeedSpinner } from "./spinner.js";
 
-export function execOrFail({ cmd, startMsg, endMsg, errorMsg }) {
+export async function execOrFail({ cmd, startMsg, endMsg, errorMsg }) {
   startSpinner(startMsg);
 
-  const result = shelljs.exec(cmd, { silent: true });
-  if (result.code !== 0) {
+  try {
+    await new Promise((resolve, reject) => {
+      exec(cmd, (error, stdout, stderr) => {
+        if (error) {
+          reject({ error, stderr });
+        } else {
+          resolve({ stdout, stderr });
+        }
+      });
+    });
+    succeedSpinner(endMsg);
+  } catch ({ error, stderr }) {
     failSpinner(errorMsg);
-    if (result.stderr) {
-      console.error(result.stderr);
+    if (stderr) {
+      console.error(stderr);
+    } else if (error?.message) {
+      console.error(error.message);
     }
-    return shelljs.exit(1);
+    process.exit(1);
   }
-
-  succeedSpinner(endMsg);
 }

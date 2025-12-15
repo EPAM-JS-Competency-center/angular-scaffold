@@ -5,11 +5,11 @@ import { execOrFail } from "../helpers/index.js";
  * @param {Object} options
  * @param {string} options.style - The style format (scss, css, less, sass)
  */
-export function addStylelint({ style = "scss" } = {}) {
+export async function addStylelint({ style = "scss" } = {}) {
   const isSassStyle = style === "scss" || style === "sass";
 
   if (isSassStyle) {
-    execOrFail({
+    await execOrFail({
       cmd: "npm i -D stylelint@16 stylelint-config-sass-guidelines@12",
       startMsg: "Installing Stylelint with SASS guidelines",
       errorMsg: "Could not install Stylelint",
@@ -24,7 +24,7 @@ export function addStylelint({ style = "scss" } = {}) {
       "utf8",
     );
   } else {
-    execOrFail({
+    await execOrFail({
       cmd: "npm i -D stylelint@16 stylelint-config-standard@38",
       startMsg: "Installing Stylelint with standard config",
       errorMsg: "Could not install Stylelint",

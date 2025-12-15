@@ -16,8 +16,8 @@ jest.mock("fs", () => ({
 }));
 
 describe("addEsLint", () => {
-  it("should install eslint and configure", () => {
-    addEslint();
+  it("should install eslint and configure", async () => {
+    await addEslint();
 
     expect(execOrFail).toHaveBeenCalledWith({
       cmd: "npx ng add @angular-eslint/schematics@21 --skip-confirmation",

@@ -30,8 +30,8 @@ jest.mock("fs", () => ({
 }));
 
 describe("addJest", () => {
-  it("should install jest-preset-angular and create config files", () => {
-    addJest();
+  it("should install jest-preset-angular and create config files", async () => {
+    await addJest();
 
     expect(execOrFail).toHaveBeenCalledWith({
       cmd: "npm i -D jest@30 jest-preset-angular@16 @types/jest@30 jest-environment-jsdom@30 ts-node",
