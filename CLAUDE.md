@@ -119,7 +119,24 @@ Tests use Jest with Babel for ESM support. Each module has a corresponding `.spe
 - `helpers/*.spec.js` - Utility function tests
 - `eslint/index.spec.js`, `prettier/index.spec.js`, `jest/index.spec.js`, etc. - Module tests
 
-Note: The main `index.js` is tested via e2e rather than unit tests due to ESM/commander integration complexity.
+### Why index.js Has No Unit Tests
+
+The main `index.js` is tested via e2e only. **Do not add unit tests for index.js.** Rationale:
+
+- Unit tests for index.js require mocking ALL dependencies (commander, shelljs, every tool module)
+- Tests with all mocks just verify that mocks call each other - providing false confidence
+- E2E tests verify the actual integration works end-to-end
+- The real value is in testing individual modules with targeted mocks, plus e2e for integration
+
+### Never Remove Tests During Refactors
+
+When refactoring code, **preserve or update existing tests** - never delete them. If tests become difficult to maintain
+due to refactoring:
+
+1. Update the tests to work with the new code structure
+2. If a function is split/renamed, split/rename the tests accordingly
+3. If mocking becomes complex, simplify the production code's dependencies
+4. Only remove tests if the functionality they test is being removed
 
 ### Test Output Must Be Clean
 

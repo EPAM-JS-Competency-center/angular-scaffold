@@ -44,7 +44,7 @@ describe("execOrFail", () => {
     expect(failSpinner).not.toHaveBeenCalled();
   });
 
-  it("should start spinner, execute command, fail and exit with code 1", async () => {
+  it("should fail and log stderr when available", async () => {
     exec.mockImplementation((cmd, callback) => {
       const error = new Error("command failed");
       callback(error, "", "error output");
@@ -63,5 +63,23 @@ describe("execOrFail", () => {
     expect(succeedSpinner).not.toHaveBeenCalled();
     expect(failSpinner).toHaveBeenCalledWith("errorMsg");
     expect(mockConsoleError).toHaveBeenCalledWith("error output");
+  });
+
+  it("should fail and log error message when no stderr available", async () => {
+    exec.mockImplementation((cmd, callback) => {
+      const error = new Error("command failed");
+      callback(error, "", "");
+    });
+
+    await execOrFail({
+      cmd: "cmd",
+      startMsg: "startMsg",
+      endMsg: "endMsg",
+      errorMsg: "errorMsg",
+    });
+
+    expect(mockProcessExit).toHaveBeenCalledWith(1);
+    expect(failSpinner).toHaveBeenCalledWith("errorMsg");
+    expect(mockConsoleError).toHaveBeenCalledWith("command failed");
   });
 });
