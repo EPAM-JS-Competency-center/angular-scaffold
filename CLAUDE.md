@@ -1,5 +1,57 @@
 # Claude Instructions
 
+## Task Completion Protocol
+
+**CRITICAL: Follow this checklist before reporting ANY task as complete.**
+
+### Completion Checklist
+
+1. **Unit tests pass with clean output:** `npm test` - No warnings, no console.log/error leaks
+2. **E2E verification** (if code was changed - see criteria below)
+3. **Clean up** any test artifacts
+
+### When E2E is Required
+
+E2E tests MUST be run after changes to:
+
+- `index.js`
+- Any file in `helpers/`
+- Any tool module (`eslint/`, `prettier/`, `stylelint/`, `jest/`, `storybook/`, `lefthook/`)
+
+E2E can be skipped ONLY for:
+
+- Pure documentation changes (README, CLAUDE.md, comments)
+- Test file changes (`*.spec.js`) that don't affect scaffold behavior
+- Package.json metadata changes (description, keywords, but NOT dependencies)
+
+**When in doubt, run e2e.** It's better to run an unnecessary test than to miss a broken scaffold.
+
+### E2E Test Procedure
+
+```bash
+# 1. Create playground directory if it doesn't exist
+mkdir -p playground
+
+# 2. Scaffold a test project (from repo root)
+cd playground && npx .. my-app
+
+# 3. Verify the scaffolded project works
+cd my-app && npm test && npm run lint
+
+# 4. Clean up (return to repo root first)
+cd ../.. && rm -rf playground/my-app
+```
+
+**Note:** The `playground/` directory is gitignored. Scaffolded apps have their own `.git/`, so commits won't affect
+this repo.
+
+### Reporting Completion
+
+Only after ALL applicable checklist items pass, report the task as complete. If any step fails, the task is NOT
+complete - fix the issue first.
+
+---
+
 ## Project Overview
 
 **scaffold-angular** is an NPX-based scaffolding tool for Angular projects. It works like `create-react-app` - users run
@@ -12,7 +64,7 @@ scaffolding, developers maintain installed dependencies themselves.
 ## Quick Reference
 
 ```bash
-npm test          # Run Jest tests
+npm test          # Run Jest unit tests
 npm run release   # Bump version and update changelog (runs tests first)
 ```
 
@@ -60,6 +112,8 @@ behavior, reconsider the approach (e.g., use explicit `--test-runner` flag or po
 
 ## Testing
 
+Unit tests verify code logic; e2e tests verify integration. **Both are required** for code changes.
+
 Tests use Jest with Babel for ESM support. Each module has a corresponding `.spec.js` file:
 
 - `helpers/*.spec.js` - Utility function tests
@@ -67,9 +121,29 @@ Tests use Jest with Babel for ESM support. Each module has a corresponding `.spe
 
 Note: The main `index.js` is tested via e2e rather than unit tests due to ESM/commander integration complexity.
 
+### Test Output Must Be Clean
+
+Test output should show ONLY the test results - no console warnings, errors, or log leaks. If code under test calls
+`console.log`, `console.error`, or `process.exit`, these MUST be mocked:
+
+```javascript
+// Mock console methods to prevent output pollution
+const mockConsoleError = jest
+  .spyOn(console, "error")
+  .mockImplementation(() => {});
+
+// Mock process.exit to prevent test termination
+const mockProcessExit = jest
+  .spyOn(process, "exit")
+  .mockImplementation(() => {});
+```
+
+If `npm test` shows a "Console" section with leaked output, fix the test by adding appropriate mocks.
+
 ## Code Conventions
 
-- **Config templates:** Each tool module has a `config.js` that exports the configuration template as a string
+- **Config templates:** Use `config.js` when configuration is complex or has multiple templates (eslint, jest,
+  lefthook). Simple inline configs are acceptable for straightforward cases (prettier, stylelint).
 - **Execution pattern:** Use `execOrFail()` helper for shell commands with spinner progress
 - **Git commits:** Each tool installation creates a separate commit (e.g., "Add ESLint", "Add Prettier")
 - **Spinners:** Use `startSpinner()`, `succeedSpinner()`, `failSpinner()` from `helpers/spinner.js`
@@ -102,4 +176,20 @@ Follow Conventional Commits: `type(scope): description`
 
 - Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`
 - Example: `feat: add jest support`
-- do not add claude references in the commits
+- Do not add Claude references in commits
+
+## Shell Guidelines
+
+1. **Run npm commands from repo root** - Always ensure you're in the correct directory before running npm commands.
+
+2. **Never delete a directory while the shell is in it** - If you `cd` into a test directory, return to repo root before
+   deleting:
+
+   ```bash
+   # WRONG - shell left in deleted directory
+   cd playground/my-app && npm test
+   rm -rf playground/my-app  # subsequent commands fail
+
+   # CORRECT - return to repo root first
+   cd ../.. && rm -rf playground/my-app
+   ```
