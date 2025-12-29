@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.16](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.15...v0.0.16) (2025-12-29)
+
+### Bug Fixes
+
+- hooks don't commit changes ([28290e2](https://github.com/EPAM-JS-Competency-center/angular-scaffold/commit/28290e2100bae81ee78ae837b2902e8a15d09fb1))
+
 ### [0.0.15](https://github.com/EPAM-JS-Competency-center/angular-scaffold/compare/v0.0.14...v0.0.15) (2025-12-15)
 
 ### Features
